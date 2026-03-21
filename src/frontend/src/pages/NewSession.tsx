@@ -67,35 +67,6 @@ const emptyMeridian: MeridianRow = {
   acidBase: "0",
 };
 
-function getDiagnosis(val: string): "Acidic" | "Base" | "Neutral" {
-  const n = Number.parseFloat(val);
-  if (Number.isNaN(n) || n === 0) return "Neutral";
-  return n < 0 ? "Acidic" : "Base";
-}
-
-function DiagnosisBadge({ value }: { value: string }) {
-  const diagnosis = getDiagnosis(value);
-  if (diagnosis === "Acidic") {
-    return (
-      <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-semibold bg-red-500/20 text-red-400 border border-red-500/40">
-        Acidic
-      </span>
-    );
-  }
-  if (diagnosis === "Base") {
-    return (
-      <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
-        Base
-      </span>
-    );
-  }
-  return (
-    <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-semibold bg-muted text-muted-foreground">
-      Neutral
-    </span>
-  );
-}
-
 export function NewSession() {
   const { data: patients = [] } = usePatients();
   const addSession = useAddSession();
@@ -124,16 +95,6 @@ export function NewSession() {
       [meridian]: { ...prev[meridian], [field]: value },
     }));
   }
-
-  // Compute summary counts live
-  const diagnosisCounts = MERIDIANS.reduce(
-    (acc, m) => {
-      const d = getDiagnosis(readings[m].acidBase);
-      acc[d] = (acc[d] ?? 0) + 1;
-      return acc;
-    },
-    { Acidic: 0, Base: 0, Neutral: 0 } as Record<string, number>,
-  );
 
   async function handleSave() {
     if (!patientId) {
@@ -266,10 +227,7 @@ export function NewSession() {
                     Vata (0-100)
                   </TableHead>
                   <TableHead className="text-muted-foreground font-medium text-center">
-                    Acid-Base (– Acidic / + Base)
-                  </TableHead>
-                  <TableHead className="text-muted-foreground font-medium text-center">
-                    Diagnosis
+                    Acid-Base
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -299,52 +257,11 @@ export function NewSession() {
                         />
                       </TableCell>
                     ))}
-                    <TableCell className="text-center">
-                      <DiagnosisBadge value={readings[m].acidBase} />
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Diagnosis Summary */}
-      <Card
-        className="bg-card border-border"
-        data-ocid="new_session.diagnosis.card"
-      >
-        <CardHeader className="pb-3">
-          <CardTitle className="font-heading text-base text-golden">
-            Meridian Diagnosis Summary
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex flex-wrap gap-3">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/30">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-              <span className="text-sm font-semibold text-red-400">
-                Acidic: {diagnosisCounts.Acidic}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-              <span className="text-sm font-semibold text-emerald-400">
-                Base: {diagnosisCounts.Base}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted border border-border">
-              <span className="w-2.5 h-2.5 rounded-full bg-muted-foreground/50" />
-              <span className="text-sm font-semibold text-muted-foreground">
-                Neutral: {diagnosisCounts.Neutral}
-              </span>
-            </div>
-          </div>
-          <p className="text-xs text-muted-foreground">
-            Values below 0 = Acidic (excess energy), above 0 = Base (deficient
-            energy)
-          </p>
         </CardContent>
       </Card>
 
