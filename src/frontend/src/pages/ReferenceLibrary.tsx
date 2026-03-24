@@ -18,6 +18,276 @@ import {
   getStageColor,
 } from "../data/quantumData";
 
+const BRAIN_RECOVERY_TRIGRAMS = [
+  {
+    moonPhase: "New Moon",
+    trigram: "☷ Kūn (Earth)",
+    binary: "000",
+    brainRegion: "Brainstem (Autonomic Recovery)",
+    neuroProcess: "Regulation of heart rate, respiration, digestion",
+    microFunction: "System Reset",
+    nadiActivation: "Chandra Nadi + Chandra Nadi + Chandra Nadi",
+    healingStrategy: "Stimulation of basic life functions",
+    acupuncture: "GV20 (Baihui), GV26 (Shuigou)",
+    ayurvedic: "Brahmi, Ashwagandha, Tulsi",
+    quantumHealing: "Theta Wave Induction, Photonic Therapy",
+  },
+  {
+    moonPhase: "Waxing Crescent",
+    trigram: "☵ Kǎn (Water)",
+    binary: "010",
+    brainRegion: "Cerebellum (Motor Coordination)",
+    neuroProcess: "Restoring balance, muscle tone, movement reflexes",
+    microFunction: "Memory & I/O Handling",
+    nadiActivation: "Chandra Nadi + Surya Nadi + Chandra Nadi",
+    healingStrategy: "Activation of motor response & muscle stimulation",
+    acupuncture: "ST36 (Zusanli), LI4 (Hegu)",
+    ayurvedic: "Guggulu, Dashmool, Mahanarayan Oil",
+    quantumHealing: "Low-Frequency Pulsed Electromagnetic Therapy",
+  },
+  {
+    moonPhase: "First Quarter",
+    trigram: "☳ Zhèn (Thunder)",
+    binary: "001",
+    brainRegion: "Limbic System (Emotional & Memory Recovery)",
+    neuroProcess: "Emotional reactivation, PTSD healing",
+    microFunction: "Interrupt Processing",
+    nadiActivation: "Chandra Nadi + Chandra Nadi + Surya Nadi",
+    healingStrategy: "Emotional stability & PTSD reduction",
+    acupuncture: "HT7 (Shenmen), PC6 (Neiguan)",
+    ayurvedic: "Shankhpushpi, Jatamansi, Calamus",
+    quantumHealing: "Binaural Beats, Heart-Brain Coherence",
+  },
+  {
+    moonPhase: "Waxing Gibbous",
+    trigram: "☶ Gèn (Mountain)",
+    binary: "100",
+    brainRegion: "Left Hemisphere (Logical & Language Recovery)",
+    neuroProcess: "Restoration of speech, logical thinking",
+    microFunction: "Stability & Sleep Mode",
+    nadiActivation: "Surya Nadi + Chandra Nadi + Chandra Nadi",
+    healingStrategy: "Speech therapy & cognitive rehabilitation",
+    acupuncture: "LI11 (Quchi), GV15 (Yamen)",
+    ayurvedic: "Guduchi, Brahmi, Mandukparni",
+    quantumHealing: "Neurofeedback Therapy",
+  },
+  {
+    moonPhase: "Full Moon",
+    trigram: "☰ Qián (Heaven)",
+    binary: "111",
+    brainRegion: "Prefrontal Cortex (Decision Making & Awareness)",
+    neuroProcess: "Higher cognitive function recovery",
+    microFunction: "Full Power Execution",
+    nadiActivation: "Surya Nadi + Surya Nadi + Surya Nadi",
+    healingStrategy: "Mental clarity & full consciousness restoration",
+    acupuncture: "GV24 (Shenting), Yintang (Third Eye)",
+    ayurvedic: "Swarna Bhasma, Shilajit, Rasayana",
+    quantumHealing: "Gamma Wave Stimulation, Quantum Field Activation",
+  },
+  {
+    moonPhase: "Waning Gibbous",
+    trigram: "☱ Duì (Lake)",
+    binary: "011",
+    brainRegion: "Hippocampus (Memory Encoding & Retrieval)",
+    neuroProcess: "Memory regeneration, recall improvement",
+    microFunction: "Data Flow & Transfer",
+    nadiActivation: "Chandra Nadi + Surya Nadi + Surya Nadi",
+    healingStrategy: "Enhancing past memory recall",
+    acupuncture: "SP6 (Sanyinjiao), UB23 (Shenshu)",
+    ayurvedic: "Amalaki, Haritaki, Triphala",
+    quantumHealing: "Scalar Wave Therapy, Magnetic Resonance Stimulation",
+  },
+  {
+    moonPhase: "Last Quarter",
+    trigram: "☴ Xùn (Wind)",
+    binary: "110",
+    brainRegion: "Thalamus (Sensory Processing & Attention)",
+    neuroProcess: "Integration of sensory perception",
+    microFunction: "Low-Power Mode",
+    nadiActivation: "Surya Nadi + Surya Nadi + Chandra Nadi",
+    healingStrategy: "Retraining of sensory awareness",
+    acupuncture: "ST8 (Touwei), SJ5 (Waiguan)",
+    ayurvedic: "Licorice, Pippali, Vacha",
+    quantumHealing: "Light & Sound Therapy",
+  },
+  {
+    moonPhase: "Waning Crescent",
+    trigram: "☲ Lí (Fire)",
+    binary: "101",
+    brainRegion: "Right Hemisphere (Creativity & Visualization)",
+    neuroProcess: "Enhancing creativity & visual memory",
+    microFunction: "Execution Optimization",
+    nadiActivation: "Surya Nadi + Chandra Nadi + Surya Nadi",
+    healingStrategy: "Awakening subconscious & dream states",
+    acupuncture: "GB13 (Benshen), SI19 (Tinggong)",
+    ayurvedic: "Rose Oil, Saffron, Nutmeg",
+    quantumHealing: "Dream Reprogramming, Lucid Dream Training",
+  },
+];
+
+const TRIGRAM_QUANTUM_PROPS = [
+  {
+    symbol: "☰",
+    name: "Heaven",
+    organ: "Lungs",
+    meridian: "Ren Mai",
+    yinYang: "Yang Yang Yang",
+    healthScale: "0-50 (Degeneration)",
+    solarBandwidth: "High Frequency",
+    hexNormal: "#CCCCCC",
+    hexDegen: "#FFFFFF",
+    hexInflam: "#999999",
+    rgbNormal: "204,204,204",
+    rgbDegen: "255,255,255",
+    rgbInflam: "153,153,153",
+    qubitState: "|0⟩",
+    diseaseProgression: "Darkness",
+    moonPhase: "New Moon",
+    rgbColor: "0,0,0",
+    rgbColorHex: "#000000",
+  },
+  {
+    symbol: "☷",
+    name: "Earth",
+    organ: "Kidneys",
+    meridian: "Du Mai",
+    yinYang: "Yin Yin Yin",
+    healthScale: "50 (Normal)",
+    solarBandwidth: "Low Frequency",
+    hexNormal: "#666666",
+    hexDegen: "#CCCCCC",
+    hexInflam: "#666666",
+    rgbNormal: "102,102,102",
+    rgbDegen: "204,204,204",
+    rgbInflam: "102,102,102",
+    qubitState: "|1⟩",
+    diseaseProgression: "Brightness",
+    moonPhase: "Waxing Crescent",
+    rgbColor: "51,51,51",
+    rgbColorHex: "#333333",
+  },
+  {
+    symbol: "☵",
+    name: "Water",
+    organ: "Bladder",
+    meridian: "Chong Mai",
+    yinYang: "Yang Yin Yang",
+    healthScale: "50-100 (Inflammation)",
+    solarBandwidth: "Medium",
+    hexNormal: "#999999",
+    hexDegen: "#C0C0C0",
+    hexInflam: "#333333",
+    rgbNormal: "153,153,153",
+    rgbDegen: "192,192,192",
+    rgbInflam: "51,51,51",
+    qubitState: "|+⟩",
+    diseaseProgression: "Coldness (Water)",
+    moonPhase: "First Quarter",
+    rgbColor: "102,102,102",
+    rgbColorHex: "#666666",
+  },
+  {
+    symbol: "☲",
+    name: "Fire",
+    organ: "Heart",
+    meridian: "Dai Mai",
+    yinYang: "Yin Yang Yin",
+    healthScale: "0-50 (Degeneration)",
+    solarBandwidth: "Very High",
+    hexNormal: "#333333",
+    hexDegen: "#999999",
+    hexInflam: "#111111",
+    rgbNormal: "51,51,51",
+    rgbDegen: "153,153,153",
+    rgbInflam: "17,17,17",
+    qubitState: "|-⟩",
+    diseaseProgression: "Heat (Fire)",
+    moonPhase: "Waxing Gibbous",
+    rgbColor: "153,153,153",
+    rgbColorHex: "#999999",
+  },
+  {
+    symbol: "☴",
+    name: "Wind",
+    organ: "Liver",
+    meridian: "Yang Qiao Mai",
+    yinYang: "Yang Yang Yin",
+    healthScale: "50-100 (Inflammation)",
+    solarBandwidth: "Broad",
+    hexNormal: "#666666",
+    hexDegen: "#666666",
+    hexInflam: "#000000",
+    rgbNormal: "102,102,102",
+    rgbDegen: "102,102,102",
+    rgbInflam: "0,0,0",
+    qubitState: "|i⟩",
+    diseaseProgression: "Wind (Wood)",
+    moonPhase: "Full Moon",
+    rgbColor: "192,192,192",
+    rgbColorHex: "#C0C0C0",
+  },
+  {
+    symbol: "☶",
+    name: "Mountain",
+    organ: "Spleen",
+    meridian: "Yin Qiao Mai",
+    yinYang: "Yin Yin Yang",
+    healthScale: "50 (Normal)",
+    solarBandwidth: "Narrow",
+    hexNormal: "#CCCCCC",
+    hexDegen: "#333333",
+    hexInflam: "#222222",
+    rgbNormal: "204,204,204",
+    rgbDegen: "51,51,51",
+    rgbInflam: "34,34,34",
+    qubitState: "|-i⟩",
+    diseaseProgression: "Dryness (Metal)",
+    moonPhase: "Waning Gibbous",
+    rgbColor: "204,204,204",
+    rgbColorHex: "#CCCCCC",
+  },
+  {
+    symbol: "☳",
+    name: "Thunder",
+    organ: "Stomach",
+    meridian: "Yang Wei Mai",
+    yinYang: "Yang Yin Yin",
+    healthScale: "0-50 (Degeneration)",
+    solarBandwidth: "Wide",
+    hexNormal: "#333333",
+    hexDegen: "#111111",
+    hexInflam: "#444444",
+    rgbNormal: "51,51,51",
+    rgbDegen: "17,17,17",
+    rgbInflam: "68,68,68",
+    qubitState: "Entangled",
+    diseaseProgression: "Warmness (Air)",
+    moonPhase: "Last Quarter",
+    rgbColor: "230,230,230",
+    rgbColorHex: "#E6E6E6",
+  },
+  {
+    symbol: "☱",
+    name: "Lake",
+    organ: "Large Intestine",
+    meridian: "Yin Wei Mai",
+    yinYang: "Yin Yang Yang",
+    healthScale: "50-100 (Inflammation)",
+    solarBandwidth: "Variable",
+    hexNormal: "#999999",
+    hexDegen: "#000000",
+    hexInflam: "#666666",
+    rgbNormal: "153,153,153",
+    rgbDegen: "0,0,0",
+    rgbInflam: "102,102,102",
+    qubitState: "Superposition",
+    diseaseProgression: "Humidity (Earth)",
+    moonPhase: "Waning Crescent",
+    rgbColor: "255,255,255",
+    rgbColorHex: "#FFFFFF",
+  },
+];
+
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <h3 className="font-heading font-semibold text-golden mb-3 mt-5 first:mt-0">
@@ -131,6 +401,7 @@ function FiveElements() {
       season: "Spring",
       time: "11pm–3am",
       color: "Green",
+      colorHex: "#22c55e",
       taste: "Sour",
     },
     {
@@ -140,6 +411,7 @@ function FiveElements() {
       season: "Summer",
       time: "11am–3pm",
       color: "Red",
+      colorHex: "#ef4444",
       taste: "Bitter",
     },
     {
@@ -149,6 +421,7 @@ function FiveElements() {
       season: "Late Summer",
       time: "7am–11am",
       color: "Yellow",
+      colorHex: "#eab308",
       taste: "Sweet",
     },
     {
@@ -158,6 +431,7 @@ function FiveElements() {
       season: "Autumn",
       time: "3am–7am",
       color: "White",
+      colorHex: "#e2e8f0",
       taste: "Pungent",
     },
     {
@@ -167,6 +441,7 @@ function FiveElements() {
       season: "Winter",
       time: "3pm–7pm",
       color: "Black/Blue",
+      colorHex: "#3b82f6",
       taste: "Salty",
     },
   ];
@@ -205,7 +480,15 @@ function FiveElements() {
                 <TableCell>{row.emotion}</TableCell>
                 <TableCell>{row.season}</TableCell>
                 <TableCell>{row.time}</TableCell>
-                <TableCell>{row.color}</TableCell>
+                <TableCell>
+                  <span className="inline-flex items-center gap-2">
+                    <span
+                      style={{ background: row.colorHex }}
+                      className="inline-block w-4 h-4 rounded-full border border-white/20 flex-shrink-0"
+                    />
+                    {row.color}
+                  </span>
+                </TableCell>
                 <TableCell>{row.taste}</TableCell>
               </TableRow>
             ))}
@@ -314,6 +597,194 @@ function EightTrigrams() {
             ))}
           </TableBody>
         </Table>
+      </div>
+
+      {/* Brain Recovery Trigrams */}
+      <div className="mt-8">
+        <SectionTitle>Brain Recovery Trigrams</SectionTitle>
+        <div className="overflow-x-auto rounded-lg border border-border">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border hover:bg-transparent">
+                {[
+                  "Moon Phase",
+                  "Trigram (Ba Gua)",
+                  "Binary Trigram",
+                  "Brain Region Activation",
+                  "Neurological Recovery Process",
+                  "Microcontroller Function",
+                  "Nadi Activation (Ida/Pingala)",
+                  "Healing Strategy for Coma Patients",
+                  "Acupuncture & Energy Healing",
+                  "Ayurvedic & Tibetan Medicine",
+                  "Quantum Healing Methods",
+                ].map((h) => (
+                  <TableHead
+                    key={h}
+                    className="text-golden font-semibold whitespace-nowrap text-xs"
+                  >
+                    {h}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {BRAIN_RECOVERY_TRIGRAMS.map((r) => (
+                <TableRow
+                  key={r.moonPhase}
+                  className="border-border hover:bg-muted/20"
+                >
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {r.moonPhase}
+                  </TableCell>
+                  <TableCell className="text-xs">{r.trigram}</TableCell>
+                  <TableCell className="font-mono text-xs text-purple-300">
+                    {r.binary}
+                  </TableCell>
+                  <TableCell className="text-xs min-w-[160px]">
+                    {r.brainRegion}
+                  </TableCell>
+                  <TableCell className="text-xs min-w-[200px]">
+                    {r.neuroProcess}
+                  </TableCell>
+                  <TableCell className="text-xs">{r.microFunction}</TableCell>
+                  <TableCell className="text-xs min-w-[200px]">
+                    {r.nadiActivation}
+                  </TableCell>
+                  <TableCell className="text-xs min-w-[200px]">
+                    {r.healingStrategy}
+                  </TableCell>
+                  <TableCell className="text-xs font-mono text-green-400 min-w-[180px]">
+                    {r.acupuncture}
+                  </TableCell>
+                  <TableCell className="text-xs min-w-[180px]">
+                    {r.ayurvedic}
+                  </TableCell>
+                  <TableCell className="text-xs min-w-[200px]">
+                    {r.quantumHealing}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Trigram Quantum Bio-Photonic Properties */}
+      <div className="mt-8">
+        <SectionTitle>Trigram Quantum Bio-Photonic Properties</SectionTitle>
+        <div className="overflow-x-auto rounded-lg border border-border">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border hover:bg-transparent">
+                {[
+                  "Symbol",
+                  "Name",
+                  "Organ",
+                  "Extraordinary Meridian",
+                  "Yin-Yang",
+                  "Health Scale",
+                  "Solar Bandwidth",
+                  "HEX Normal",
+                  "HEX Degen.",
+                  "HEX Inflam.",
+                  "RGB Normal",
+                  "RGB Degen.",
+                  "RGB Inflam.",
+                  "Qubit State",
+                  "Disease Prog.",
+                  "Moon Phase",
+                  "RGB Color",
+                ].map((h) => (
+                  <TableHead
+                    key={h}
+                    className="text-golden font-semibold whitespace-nowrap text-xs"
+                  >
+                    {h}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {TRIGRAM_QUANTUM_PROPS.map((r) => (
+                <TableRow
+                  key={r.symbol}
+                  className="border-border hover:bg-muted/20"
+                >
+                  <TableCell className="text-lg">{r.symbol}</TableCell>
+                  <TableCell className="text-xs font-medium">
+                    {r.name}
+                  </TableCell>
+                  <TableCell className="text-xs">{r.organ}</TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {r.meridian}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {r.yinYang}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {r.healthScale}
+                  </TableCell>
+                  <TableCell className="text-xs">{r.solarBandwidth}</TableCell>
+                  <TableCell className="text-xs">
+                    <span className="inline-flex items-center gap-1">
+                      <span
+                        style={{ background: r.hexNormal }}
+                        className="inline-block w-3 h-3 rounded border border-white/30 flex-shrink-0"
+                      />
+                      {r.hexNormal}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    <span className="inline-flex items-center gap-1">
+                      <span
+                        style={{ background: r.hexDegen }}
+                        className="inline-block w-3 h-3 rounded border border-white/30 flex-shrink-0"
+                      />
+                      {r.hexDegen}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    <span className="inline-flex items-center gap-1">
+                      <span
+                        style={{ background: r.hexInflam }}
+                        className="inline-block w-3 h-3 rounded border border-white/30 flex-shrink-0"
+                      />
+                      {r.hexInflam}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-xs font-mono">
+                    {r.rgbNormal}
+                  </TableCell>
+                  <TableCell className="text-xs font-mono">
+                    {r.rgbDegen}
+                  </TableCell>
+                  <TableCell className="text-xs font-mono">
+                    {r.rgbInflam}
+                  </TableCell>
+                  <TableCell className="text-xs font-mono text-purple-300">
+                    {r.qubitState}
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    {r.diseaseProgression}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {r.moonPhase}
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    <span className="inline-flex items-center gap-1">
+                      <span
+                        style={{ background: r.rgbColorHex }}
+                        className="inline-block w-4 h-4 rounded border border-white/30 flex-shrink-0"
+                      />
+                      {r.rgbColor}
+                    </span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
   );

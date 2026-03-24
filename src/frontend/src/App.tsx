@@ -8,6 +8,7 @@ import {
   createRoute,
   createRouter,
 } from "@tanstack/react-router";
+import { PasswordGate } from "./components/PasswordGate";
 import { Sidebar } from "./components/Sidebar";
 import { Dashboard } from "./pages/Dashboard";
 import { NewSession } from "./pages/NewSession";
@@ -96,7 +97,9 @@ declare module "@tanstack/react-router" {
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <PasswordGate>
+        <RouterProvider router={router} />
+      </PasswordGate>
       <Toaster richColors position="top-right" />
     </QueryClientProvider>
   );

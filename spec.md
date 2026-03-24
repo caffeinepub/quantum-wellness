@@ -1,31 +1,30 @@
-# Quantum Wellness — Hiddén Ömkärèshwér Ärdhnärishwär Bäläncér
+# Quantum Wellness
 
 ## Current State
-- App has Dashboard, Patients, New Session, Reference Library (6 tabs: Pulse, Five Elements, Eight Trigrams, I Ching, Acupuncture, PMA Guide), and Profile pages.
-- New Session records meridian readings (Qi, Pitta, Kapha, Vata, Acid-Base) for 12 meridians.
-- Reference Library has basic trigram/I Ching content without the full Triorigin system.
+- Full app with Dashboard, Patients, New Session, Quantum Diagnostics, Reference Library (6+ tabs), Profile
+- Reference Library has FiveElements tab (shows color text) and a Trigrams/EightTrigrams tab
+- No password protection
 
 ## Requested Changes (Diff)
 
 ### Add
-- **New page: Quantum Diagnostics** — Real-time organ clock showing current active Qi stage (IST 2-hour shifts), Solenoid Radar chart of 8 Qi stages, Batch pulse bit entry (Upper +ve 3-bit / Lower -ve 3-bit for 12 meridians), auto-diagnosis of Trigram + Qi Stage + 64-Hexagram sub-stage, Bio-Field Health % score, Laser Protocol recommendations, Midday-Midnight Opposite Law indicator.
-- **New Reference Library tabs:** Triorigin Matrix (8-stage with Triorigin force, bit code, trigram, moon phase, extraordinary vessel), Extraordinary Vessels (Master & Coupled Points, Sujok locations), 64 Hexagrams (sub-stage matrix with hex code, diagnosis, treatment), Dr. Tung's Balancer (5 systems from uploaded images: Anatomical, Bie Jing, Interior/Exterior, Chinese Clock Opposites, Neighbor; body-part mirror table, tonify/sedate points), Hit Theory (120°/180° degrees for 12 meridians, Opposite Law/Midday-Midnight matrix, color coding), Medical Astro Vastu (direction map, toxicity check, sitting protocol).
-- **New Dashboard section:** Quantum Singularity panel showing current White Hole (Du Mai) vs Black Hole (Ren Mai) status, current moon phase / Qi stage, today's recommended laser protocol.
-- **8-Stage color coding** throughout: Heat=Red, Coldness=Blue, Wind=Green, Darkness=Black, Humidity=Yellow, Warmness=Orange, Dryness=Grey, Brightness=Purple.
+1. **Password protection** — Simple login gate before the app loads. Hardcoded password (e.g. `QuantumWellness2026`). Store auth state in localStorage/sessionStorage. Show a styled login screen with password field.
+2. **5 Elements color swatches** — In the FiveElements table, the "Color" column should show a colored swatch/badge alongside the color name (Wood=Green, Fire=Red, Earth=Yellow, Metal=White/Silver, Water=Black/Blue)
+3. **Brain_Recovery_Trigrams table** — In the Trigrams section (EightTrigrams function area), add a new titled table "Brain Recovery Trigrams" with 11 columns: Moon Phase, Trigram (Ba Gua), Binary Trigram, Brain Region Activation, Neurological Recovery Process, Microcontroller Function, Nadi Activation (Ida/Pingala), Healing Strategy for Coma Patients, Acupuncture & Energy Healing, Ayurvedic & Tibetan Medicine, Quantum Healing Methods — with 8 rows of data provided.
+4. **Extended Trigram Details table** — In the Trigrams section, add another table titled "Trigram Quantum Bio-Photonic Properties" with columns: Trigram Symbol, Trigram Name, Organ, Extraordinary Meridian, Yin-Yang Structure, Health Scale (0-100%), Solar Spectrum Bandwidth, HEX Code (50% Normal), HEX Code (0-50% Degeneration), HEX Code (50-100% Inflammation), RGB Code (50% Normal), RGB Code (0-50% Degeneration), RGB Code (50-100% Inflammation), Trigram Qubit State, Disease Progression, Moon Phase, RGB Color — with 8 rows. Each HEX code should show a color swatch.
 
 ### Modify
-- **New Session page:** Add Upper 3-bit (+ve) and Lower 3-bit (-ve) columns to meridian table. On input, auto-compute Hexagram code, Qi Stage, diagnosis, tonify/sedate points, 120° partner. Show Bio-Field Health % at top.
-- **Reference Library:** Expand Eight Trigrams tab to include full Triorigin mapping (bit codes, moon phases, extraordinary vessels, nadi relationship). Expand I Ching tab with complete 64-hexagram sub-stage data.
-- **Dashboard:** Add real-time active Qi stage indicator and current laser recommendation.
-- **Navigation sidebar:** Add "Quantum Diagnostics" entry.
+- FiveElements table: color text column → colored swatch + text
+- EightTrigrams section: append the two new tables below the existing Ba Gua table
+- App.tsx: wrap entire app in a PasswordGate component
 
 ### Remove
-- Nothing removed.
+- Nothing removed
 
 ## Implementation Plan
-1. Add QuantumDiagnostics page with real-time clock, batch bit entry, radar chart (recharts), auto-diagnosis, health %, laser protocol, opposite law.
-2. Add route `/quantum` and sidebar entry for Quantum Diagnostics.
-3. Expand ReferenceLibrary with new tabs: Triorigin, ExtraordinaryVessels, HexagramMatrix, TungBalancer, HitTheory, AstroVastu.
-4. Update NewSession to add Upper/Lower bit columns and auto-diagnosis display per meridian row.
-5. Update Dashboard to show current active Qi stage + singularity panel.
-6. Apply 8-stage color coding system globally.
+1. Create `src/frontend/src/components/PasswordGate.tsx` — simple password lock screen with field, submit button, error message. Password: `QuantumWellness2026`. Use sessionStorage to persist.
+2. Wrap `<RouterProvider>` in App.tsx with `<PasswordGate>`.
+3. Update FiveElements in ReferenceLibrary.tsx to show color swatches in the Color column.
+4. Add BrainRecoveryTrigramsTable component inside ReferenceLibrary.tsx with all 8 rows.
+5. Add TrigramQuantumTable component inside ReferenceLibrary.tsx with all 8 rows, showing HEX color swatches.
+6. Add both new tables inside the EightTrigrams function render output (after the existing Ba Gua table).
