@@ -1,8 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "@tanstack/react-router";
-import { Activity, Calendar, Plus, UserCheck, Users } from "lucide-react";
+import { Activity, Atom, Calendar, Plus, UserCheck, Users } from "lucide-react";
 import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import {
+  EXTRAORDINARY_VESSELS,
+  QI_STAGES,
+  getActiveQiStage,
+  getStageColor,
+} from "../data/quantumData";
 import { usePatients, useSessions } from "../hooks/useQueries";
 
 export function Dashboard() {
@@ -15,6 +22,20 @@ export function Dashboard() {
 
   const recentSessions = [...sessions].slice(-5).reverse();
   const recentPatients = [...patients].slice(-5).reverse();
+
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+
+  const istHour = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
+  ).getHours();
+  const stageName = getActiveQiStage(istHour);
+  const activeStage = QI_STAGES.find((s) => s.name === stageName);
+  const activeVessel = EXTRAORDINARY_VESSELS.find((v) => v.phase === stageName);
+  const stageColor = getStageColor(stageName);
 
   return (
     <div className="p-6 space-y-6" data-ocid="dashboard.page">
@@ -93,7 +114,104 @@ export function Dashboard() {
         >
           <Plus className="w-4 h-4 mr-2" /> New Session
         </Button>
+        <Button
+          data-ocid="dashboard.quantum.secondary_button"
+          onClick={() => navigate({ to: "/quantum" })}
+          variant="outline"
+          className="border-purple-500/50 text-purple-300 hover:bg-purple-900/20"
+        >
+          <Atom className="w-4 h-4 mr-2" /> Quantum Dx
+        </Button>
       </div>
+
+      {/* Quantum Singularity Active Protocol */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        <Card className="bg-card border-border border-golden/20">
+          <CardHeader className="pb-2">
+            <CardTitle className="font-heading text-base text-golden flex items-center gap-2">
+              <Atom className="w-4 h-4" />
+              Quantum Singularity — Active Protocol
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-3 items-start">
+              <div
+                className={`rounded-lg px-4 py-3 ${stageColor} flex flex-col items-center min-w-[100px]`}
+              >
+                <p className="text-xs opacity-70 mb-0.5">Active Stage</p>
+                <p className="font-heading font-bold text-lg">{stageName}</p>
+                <p className="text-xs opacity-70">{activeStage?.trigram}</p>
+              </div>
+              <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                <div className="bg-muted/30 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Active Vessel
+                  </p>
+                  <p className="font-semibold text-golden text-xs">
+                    {activeStage?.vessel}
+                  </p>
+                </div>
+                <div className="bg-muted/30 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Master Point
+                  </p>
+                  <p className="font-semibold text-xs">
+                    {activeVessel?.master ?? "—"}
+                  </p>
+                </div>
+                <div className="bg-muted/30 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Time Window
+                  </p>
+                  <p className="font-semibold text-xs">{activeStage?.time}</p>
+                </div>
+                <div className="bg-muted/30 rounded-lg p-3">
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Singularity
+                  </p>
+                  <p className="font-semibold text-xs text-golden/80">
+                    {activeStage?.singularity}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-3 rounded-lg bg-muted/20 border border-border p-3">
+              <p className="text-xs text-muted-foreground mb-1">
+                GaAlAr Laser Protocol
+              </p>
+              <p className="text-sm text-golden">
+                {activeStage?.laserProtocol}
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Spectrum: {activeStage?.laserSpectrum} ·{" "}
+                {activeStage?.frequency}
+              </p>
+            </div>
+            <div className="mt-3 flex gap-3">
+              <div className="flex-1 rounded-lg bg-orange-950/40 border border-orange-800/30 p-2.5 text-center">
+                <p className="text-xs text-orange-400 font-semibold">
+                  Du Mai — White Hole ☰
+                </p>
+                <p className="text-xs text-orange-200/70">
+                  Emission · Bit 111 · Sūryā
+                </p>
+              </div>
+              <div className="flex-1 rounded-lg bg-blue-950/40 border border-blue-800/30 p-2.5 text-center">
+                <p className="text-xs text-blue-400 font-semibold">
+                  Ren Mai — Black Hole ☷
+                </p>
+                <p className="text-xs text-blue-200/70">
+                  Absorption · Bit 000 · Chāndrā
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
       {/* Recent panels */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

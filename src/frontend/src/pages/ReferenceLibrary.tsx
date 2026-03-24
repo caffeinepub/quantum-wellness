@@ -8,6 +8,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  EXTRAORDINARY_VESSELS,
+  HEX_MATRIX,
+  MERIDIANS_DATA,
+  OPPOSITE_LAW,
+  QI_STAGES,
+  STAGE_GROUPS,
+  getStageColor,
+} from "../data/quantumData";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
@@ -32,6 +41,16 @@ function InfoCard({
         {children}
       </CardContent>
     </Card>
+  );
+}
+
+function StageBadge({ stage }: { stage: string }) {
+  return (
+    <span
+      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold ${getStageColor(stage)}`}
+    >
+      {stage}
+    </span>
   );
 }
 
@@ -296,36 +315,6 @@ function EightTrigrams() {
           </TableBody>
         </Table>
       </div>
-      <InfoCard title="Vedic Chakra Mapping">
-        <p>
-          <strong className="text-golden/80">Muladhara (Root):</strong> Kun —
-          Earth, Stability, Survival, Foundation
-        </p>
-        <p>
-          <strong className="text-golden/80">Svadhisthana (Sacral):</strong>{" "}
-          Kan/Dui — Water, Creativity, Emotion
-        </p>
-        <p>
-          <strong className="text-golden/80">Manipura (Solar Plexus):</strong>{" "}
-          Zhen — Thunder, Will, Power
-        </p>
-        <p>
-          <strong className="text-golden/80">Anahata (Heart):</strong> Xun —
-          Wind, Love, Compassion
-        </p>
-        <p>
-          <strong className="text-golden/80">Vishuddha (Throat):</strong> Gen —
-          Mountain, Expression, Truth
-        </p>
-        <p>
-          <strong className="text-golden/80">Ajna (Third Eye):</strong> Li —
-          Fire, Intuition, Clarity
-        </p>
-        <p>
-          <strong className="text-golden/80">Sahasrara (Crown):</strong> Qian —
-          Heaven, Cosmic Consciousness
-        </p>
-      </InfoCard>
     </div>
   );
 }
@@ -336,37 +325,12 @@ function IChing() {
       <SectionTitle>I Ching — 64 Hexagrams</SectionTitle>
       <InfoCard title="Overview">
         <p>
-          The I Ching (易經, Book of Changes) is one of the oldest Chinese
-          classical texts and a fundamental reference in Taoist and Confucian
-          philosophy. It comprises 64 hexagrams, each formed by combining two of
-          the eight trigrams (Ba Gua).
-        </p>
-        <p>
-          Each hexagram represents a state of change or transition in nature,
-          human affairs, and cosmic principles. In bio-energetic practice,
-          hexagram resonance is used to identify energetic patterns in meridian
-          flow.
+          The I Ching comprises 64 hexagrams, each formed by combining two of
+          the eight trigrams (Ba Gua). In bio-energetic practice, hexagram
+          resonance identifies energetic patterns in meridian flow.
         </p>
       </InfoCard>
-      <InfoCard title="Hexagram Structure">
-        <p>
-          <strong className="text-golden/80">Upper Trigram:</strong>{" "}
-          Heaven/External forces, current environment
-        </p>
-        <p>
-          <strong className="text-golden/80">Lower Trigram:</strong>{" "}
-          Earth/Internal forces, inner state
-        </p>
-        <p>
-          <strong className="text-golden/80">Moving Lines:</strong> Indicate
-          transformation and transition points
-        </p>
-        <p>
-          <strong className="text-golden/80">Nuclear Hexagram:</strong> Hidden
-          core energies (lines 2-5)
-        </p>
-      </InfoCard>
-      <InfoCard title="Key Hexagrams in Clinical Context">
+      <InfoCard title="Key Clinical Hexagrams">
         <p>
           <strong className="text-golden/80">Hexagram 1 (☰☰ Qian):</strong> Pure
           Yang, maximum creative force, strong constitutional vitality
@@ -378,14 +342,6 @@ function IChing() {
         <p>
           <strong className="text-golden/80">Hexagram 11 (☷☰ Tai):</strong>{" "}
           Peace and harmony, optimal organ balance
-        </p>
-        <p>
-          <strong className="text-golden/80">Hexagram 29 (☵☵ Kan):</strong>{" "}
-          Abyss/Water, kidney stress, fear patterns
-        </p>
-        <p>
-          <strong className="text-golden/80">Hexagram 30 (☲☲ Li):</strong>{" "}
-          Fire/Clarity, heart excess, inflammation
         </p>
         <p>
           <strong className="text-golden/80">Hexagram 63 (☵☲ Ji Ji):</strong>{" "}
@@ -445,16 +401,6 @@ function AcupunctureRef() {
           <strong className="text-golden/80">Back-Shu Points:</strong> Direct
           organ treatment on Bladder meridian
         </p>
-        <p>
-          <strong className="text-golden/80">Front-Mu Points:</strong> Alarm
-          points, diagnostic and treatment
-        </p>
-        <p>
-          <strong className="text-golden/80">
-            Eight Extraordinary Vessels:
-          </strong>{" "}
-          Deep constitutional treatment
-        </p>
       </InfoCard>
     </div>
   );
@@ -493,37 +439,868 @@ function PMAGuide() {
           Significant excess — dispersal required
         </p>
       </InfoCard>
-      <InfoCard title="Dosha Balance Targets">
+    </div>
+  );
+}
+
+// ---- NEW TABS ----
+
+function TrioriginTab() {
+  return (
+    <div className="space-y-4">
+      <InfoCard title="Triorigin Force System (Prof. Park Jae Woo)">
         <p>
-          <strong className="text-golden/80">Vata (Air/Ether):</strong> 45-55
-          optimal; below 40 — depleted nervous system; above 65 —
-          anxiety/erratic energy
-        </p>
-        <p>
-          <strong className="text-golden/80">Pitta (Fire/Water):</strong> 45-55
-          optimal; below 40 — low metabolism; above 65 — inflammation/excess
-          heat
-        </p>
-        <p>
-          <strong className="text-golden/80">Kapha (Earth/Water):</strong> 45-55
-          optimal; below 40 — depleted fluids; above 65 —
-          congestion/sluggishness
-        </p>
-      </InfoCard>
-      <InfoCard title="Acid-Base Scale">
-        <p>
-          <strong className="text-golden/80">-100 to -30 (Acidic):</strong>{" "}
-          Toxic load, inflammation, excess Yang
-        </p>
-        <p>
-          <strong className="text-golden/80">-29 to +29 (Neutral):</strong>{" "}
-          Balanced metabolic environment
-        </p>
-        <p>
-          <strong className="text-golden/80">+30 to +100 (Alkaline):</strong>{" "}
-          Yin excess, cold pattern, reduced metabolic function
+          The Triorigin system expands the 6-stage view (Six Ki) to 8 stages by
+          adding Darkness (Homo/Neuto) and Dryness (Homo). These link the
+          meridians to the 8 Moon Phases through Hetero/Homo/Neutro/Neuto
+          forces.
         </p>
       </InfoCard>
+      <div className="overflow-x-auto rounded-lg border border-border">
+        <Table>
+          <TableHeader>
+            <TableRow className="border-border hover:bg-transparent">
+              {[
+                "Stage",
+                "Triorigin",
+                "Bit",
+                "Trigram",
+                "Singularity",
+                "Vessel",
+                "Moon Phase",
+                "Time Peak",
+                "Symptoms",
+                "Toxic Flavor",
+                "Laser Protocol",
+                "Spectrum",
+              ].map((h) => (
+                <TableHead
+                  key={h}
+                  className="text-golden font-semibold whitespace-nowrap"
+                >
+                  {h}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {QI_STAGES.map((s) => (
+              <TableRow key={s.name} className="border-border">
+                <TableCell>
+                  <StageBadge stage={s.name} />
+                </TableCell>
+                <TableCell className="text-xs whitespace-nowrap">
+                  {s.triorigin}
+                </TableCell>
+                <TableCell className="font-mono text-xs text-purple-300">
+                  {s.bit}
+                </TableCell>
+                <TableCell className="text-xs">{s.trigram}</TableCell>
+                <TableCell className="text-xs whitespace-nowrap">
+                  {s.singularity}
+                </TableCell>
+                <TableCell className="text-xs whitespace-nowrap">
+                  {s.vessel}
+                </TableCell>
+                <TableCell className="text-xs">{s.moonPhase}</TableCell>
+                <TableCell className="text-xs whitespace-nowrap">
+                  {s.time}
+                </TableCell>
+                <TableCell className="text-xs min-w-[180px]">
+                  {s.symptoms}
+                </TableCell>
+                <TableCell className="text-xs min-w-[160px] text-muted-foreground">
+                  {s.toxicFlavor}
+                </TableCell>
+                <TableCell className="text-xs min-w-[200px]">
+                  {s.laserProtocol}
+                </TableCell>
+                <TableCell className="text-xs whitespace-nowrap text-golden/70">
+                  {s.laserSpectrum}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+}
+
+function ExtVesselsTab() {
+  return (
+    <div className="space-y-4">
+      <InfoCard title="8 Extraordinary Vessels — Quantum Singularity Map">
+        <p>
+          The 8 Extraordinary Vessels act as Event Horizons in the Microcosmic
+          Orbit. Du Mai (White Hole) radiates; Ren Mai (Black Hole) absorbs. The
+          other 6 vessels stabilize the Solenoid flow.
+        </p>
+      </InfoCard>
+      <div className="overflow-x-auto rounded-lg border border-border">
+        <Table>
+          <TableHeader>
+            <TableRow className="border-border hover:bg-transparent">
+              {[
+                "Vessel",
+                "Singularity",
+                "Master Point",
+                "Coupled Point",
+                "Trigram",
+                "Phase",
+                "Bit",
+                "Direction",
+                "Sujok Location",
+                "Macro Effect",
+              ].map((h) => (
+                <TableHead
+                  key={h}
+                  className="text-golden font-semibold whitespace-nowrap"
+                >
+                  {h}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {EXTRAORDINARY_VESSELS.map((v) => (
+              <TableRow
+                key={v.vessel}
+                className="border-border hover:bg-muted/20"
+              >
+                <TableCell className="font-semibold text-golden/80 text-xs whitespace-nowrap">
+                  {v.vessel}
+                </TableCell>
+                <TableCell className="text-xs">{v.singularity}</TableCell>
+                <TableCell className="text-xs font-mono text-green-400">
+                  {v.master}
+                </TableCell>
+                <TableCell className="text-xs font-mono text-orange-400">
+                  {v.coupled}
+                </TableCell>
+                <TableCell className="text-xs">{v.trigram}</TableCell>
+                <TableCell>
+                  <StageBadge stage={v.phase} />
+                </TableCell>
+                <TableCell className="font-mono text-xs text-purple-300">
+                  {v.bit}
+                </TableCell>
+                <TableCell className="text-xs">{v.direction}</TableCell>
+                <TableCell className="text-xs text-muted-foreground min-w-[200px]">
+                  {v.sujok}
+                </TableCell>
+                <TableCell className="text-xs min-w-[180px]">
+                  {v.macroEffect}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+}
+
+function HexMatrixTab() {
+  return (
+    <div className="space-y-6">
+      <InfoCard title="64 Hexagram Sub-Stage Diagnostics">
+        <p>
+          A Hexagram (6-bit) = Upper Trigram (surface symptom) + Lower Trigram
+          (root cause). Treat the Lower Trigram (Root) first, then the Upper
+          Trigram (Branch).
+        </p>
+      </InfoCard>
+      <div className="overflow-x-auto rounded-lg border border-border">
+        <Table>
+          <TableHeader>
+            <TableRow className="border-border hover:bg-transparent">
+              {[
+                "Hex Code",
+                "Sub-Stage",
+                "Bio-Resonance Diagnosis",
+                "Treatment Protocol",
+              ].map((h) => (
+                <TableHead key={h} className="text-golden font-semibold">
+                  {h}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {HEX_MATRIX.map((row) => (
+              <TableRow
+                key={row.hex}
+                className="border-border hover:bg-muted/20"
+              >
+                <TableCell className="font-mono text-xs text-purple-300">
+                  {row.hex}
+                </TableCell>
+                <TableCell className="text-xs font-medium">
+                  {row.subStage}
+                </TableCell>
+                <TableCell className="text-xs text-muted-foreground min-w-[200px]">
+                  {row.diagnosis}
+                </TableCell>
+                <TableCell className="text-xs text-golden/80 min-w-[200px]">
+                  {row.treatment}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <div>
+        <h4 className="font-heading font-semibold text-golden mb-3">
+          8-Stage Hexagram Groups (by Lower Trigram)
+        </h4>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {Object.entries(STAGE_GROUPS).map(([stage, hexs]) => (
+            <div
+              key={stage}
+              className={`rounded-lg p-3 border ${getStageColor(stage)}`}
+            >
+              <p className="font-bold text-sm mb-1">{stage}</p>
+              <p className="text-xs opacity-80">Hexagrams: {hexs.join(", ")}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DrTungTab() {
+  const clockOpposites = [
+    {
+      meridian: "Lung (LU)",
+      time: "3-5am",
+      opposite: "Bladder (UB)",
+      oppTime: "3-5pm",
+    },
+    {
+      meridian: "Large Int. (LI)",
+      time: "5-7am",
+      opposite: "Kidney (KI)",
+      oppTime: "5-7pm",
+    },
+    {
+      meridian: "Stomach (ST)",
+      time: "7-9am",
+      opposite: "Pericardium (PC)",
+      oppTime: "7-9pm",
+    },
+    {
+      meridian: "Spleen (SP)",
+      time: "9-11am",
+      opposite: "Triple E. (TE)",
+      oppTime: "9-11pm",
+    },
+    {
+      meridian: "Heart (HT)",
+      time: "11am-1pm",
+      opposite: "Gallbladder (GB)",
+      oppTime: "11pm-1am",
+    },
+    {
+      meridian: "Small Int. (SI)",
+      time: "1-3pm",
+      opposite: "Liver (LR)",
+      oppTime: "1-3am",
+    },
+  ];
+
+  const imagingTable = [
+    { zone: "Finger/Toe", bodyRegion: "Top of head / Anus & Testicles" },
+    { zone: "Hand/Foot", bodyRegion: "Head & Skull / Genitals" },
+    { zone: "Wrist/Ankle", bodyRegion: "Neck / Bladder" },
+    { zone: "Forearm/Lower Leg", bodyRegion: "Upper Abdomen / Lower Abdomen" },
+    { zone: "Elbow/Knee", bodyRegion: "Umbilicus L-2" },
+    {
+      zone: "Upper Arm/Upper Leg",
+      bodyRegion: "Chest & Upper Back / Lower Abdomen",
+    },
+    { zone: "Shoulder/Hip", bodyRegion: "Neck & Jaw / Genitals" },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <InfoCard title="Dr. Tung's 5 Balancer Systems">
+        <p>
+          Dr. Tung's acupuncture uses 5 imaging systems for distal point
+          selection. The body part affected is treated via its mirror image on
+          the extremities.
+        </p>
+      </InfoCard>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <InfoCard title="System 1: Anatomical Image">
+          <p>
+            Same meridian name sharing. Hand-foot pairing. Treats via same-named
+            meridian on opposite limb.
+          </p>
+        </InfoCard>
+        <InfoCard title="System 2: Bie Jing Branching">
+          <p>
+            <strong className="text-golden/80">TAI YANG ↔ TAI YIN:</strong> SI /
+            UB ↔ LU / SP
+          </p>
+          <p>
+            <strong className="text-golden/80">JUE YIN ↔ YANG MING:</strong> PC
+            / LR ↔ LI / ST
+          </p>
+          <p>
+            <strong className="text-golden/80">SHAO YANG ↔ SHAO YIN:</strong> TE
+            / GB ↔ HT / KI
+          </p>
+        </InfoCard>
+        <InfoCard title="System 3: Interior/Exterior (BaGua)">
+          <p>Treats opposite side — Yin for Yang organ pairs:</p>
+          <p>
+            <strong className="text-golden/80">UB ↔ GB:</strong> Tai Yang ↔ Shao
+            Yang
+          </p>
+          <p>
+            <strong className="text-golden/80">LU ↔ SP:</strong> Metal Yin pair
+          </p>
+          <p>
+            <strong className="text-golden/80">ST ↔ LI:</strong> Earth/Metal
+            Yang pair
+          </p>
+          <p>
+            <strong className="text-golden/80">K ↔ LV:</strong> Water/Wood Yin
+            pair
+          </p>
+          <p>
+            <strong className="text-golden/80">H ↔ P:</strong> Fire Yin pair
+          </p>
+          <p>
+            <strong className="text-golden/80">SI ↔ SJ:</strong> Fire Yang pair
+          </p>
+        </InfoCard>
+        <InfoCard title="System 5: Neighbor System">
+          <p>Adjacent meridians on the organ clock:</p>
+          <p>SI ↔ UB · K ↔ PC · TE ↔ GB · LV ↔ LU · LI ↔ ST · SP ↔ HT</p>
+        </InfoCard>
+      </div>
+
+      <div>
+        <h4 className="font-heading font-semibold text-golden mb-3">
+          System 4: Chinese Clock Opposites (12-Hour)
+        </h4>
+        <div className="overflow-x-auto rounded-lg border border-border">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border hover:bg-transparent">
+                {[
+                  "Meridian",
+                  "Peak Time",
+                  "Opposite Meridian",
+                  "Opposite Time",
+                ].map((h) => (
+                  <TableHead key={h} className="text-golden font-semibold">
+                    {h}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {clockOpposites.map((row) => (
+                <TableRow
+                  key={row.meridian}
+                  className="border-border hover:bg-muted/20"
+                >
+                  <TableCell className="font-medium text-golden/80 text-xs">
+                    {row.meridian}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {row.time}
+                  </TableCell>
+                  <TableCell className="text-xs">{row.opposite}</TableCell>
+                  <TableCell className="font-mono text-xs text-muted-foreground">
+                    {row.oppTime}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      <div>
+        <h4 className="font-heading font-semibold text-golden mb-3">
+          Imaging Format / Mirroring Zones
+        </h4>
+        <div className="overflow-x-auto rounded-lg border border-border">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border hover:bg-transparent">
+                {["Limb Zone", "Body Region Treated"].map((h) => (
+                  <TableHead key={h} className="text-golden font-semibold">
+                    {h}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {imagingTable.map((row) => (
+                <TableRow
+                  key={row.zone}
+                  className="border-border hover:bg-muted/20"
+                >
+                  <TableCell className="font-medium text-golden/80 text-xs">
+                    {row.zone}
+                  </TableCell>
+                  <TableCell className="text-xs">{row.bodyRegion}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      <div>
+        <h4 className="font-heading font-semibold text-golden mb-3">
+          Complete 8-Stage Tonify / Sedate Points
+        </h4>
+        <div className="overflow-x-auto rounded-lg border border-border">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border hover:bg-transparent">
+                {[
+                  "Meridian",
+                  "Code",
+                  "Qi Stage",
+                  "Trigram",
+                  "Nādī",
+                  "Tonify",
+                  "Sedate",
+                  "Tung Mirror",
+                ].map((h) => (
+                  <TableHead key={h} className="text-golden font-semibold">
+                    {h}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {MERIDIANS_DATA.map((m) => (
+                <TableRow
+                  key={m.code}
+                  className="border-border hover:bg-muted/20"
+                >
+                  <TableCell className="font-medium text-xs text-golden/80">
+                    {m.name}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">{m.code}</TableCell>
+                  <TableCell>
+                    <StageBadge stage={m.qiStage} />
+                  </TableCell>
+                  <TableCell className="text-xs">{m.trigram}</TableCell>
+                  <TableCell className="text-xs text-muted-foreground">
+                    {m.nadi}
+                  </TableCell>
+                  <TableCell className="text-xs text-green-400 font-mono">
+                    {m.tonify}
+                  </TableCell>
+                  <TableCell className="text-xs text-red-400 font-mono">
+                    {m.sedate}
+                  </TableCell>
+                  <TableCell className="text-xs">{m.tungsBody}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HitTheoryTab() {
+  const colorKey = [
+    { stage: "HEAT", color: "Red", trigger: "Heat" },
+    { stage: "COLDNESS", color: "Blue", trigger: "Coldness" },
+    { stage: "WIND", color: "Green", trigger: "Wind" },
+    { stage: "DARKNESS", color: "Black", trigger: "Darkness" },
+    { stage: "HUMIDITY", color: "Yellow", trigger: "Humidity" },
+    { stage: "WARMNESS", color: "Orange", trigger: "Warmness" },
+    { stage: "DRYNESS", color: "Grey", trigger: "Dryness" },
+    { stage: "STILLNESS", color: "Purple", trigger: "Brightness" },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <InfoCard title="Hit Theory — 120° Normal Degree vs 180° Direct Hit">
+        <p>
+          <strong className="text-golden/80">
+            180° Direct Hit (Toxic/Antagonistic):
+          </strong>{" "}
+          Direct opposition between meridians creates a "Consumption" state —
+          energy is blocked and wasted.
+        </p>
+        <p>
+          <strong className="text-golden/80">
+            120° Normal Degree (Synergistic):
+          </strong>{" "}
+          The optimal angle for positive meridian interaction — creates "Real
+          Interaction" and "Flow State."
+        </p>
+        <p>
+          <strong className="text-golden/80">Clinical Application:</strong> When
+          a direct 180° confrontation occurs, shift 30° toward the 120° Normal
+          Degree to dissolve the Hit.
+        </p>
+      </InfoCard>
+
+      <div className="overflow-x-auto rounded-lg border border-border">
+        <Table>
+          <TableHeader>
+            <TableRow className="border-border hover:bg-transparent">
+              {[
+                "Meridian",
+                "Qi Stage",
+                "180° Direct Hit",
+                "120° Normal Partner",
+                "Tonify",
+                "Sedate",
+              ].map((h) => (
+                <TableHead key={h} className="text-golden font-semibold">
+                  {h}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {MERIDIANS_DATA.map((m) => (
+              <TableRow key={m.code} className="border-border">
+                <TableCell className="font-medium text-xs text-golden/80">
+                  {m.name}
+                </TableCell>
+                <TableCell>
+                  <StageBadge stage={m.qiStage} />
+                </TableCell>
+                <TableCell className="text-xs text-red-400">
+                  {m.hit180}
+                </TableCell>
+                <TableCell className="text-xs text-green-400">
+                  {m.normal120}
+                </TableCell>
+                <TableCell className="text-xs font-mono text-green-400">
+                  {m.tonify}
+                </TableCell>
+                <TableCell className="text-xs font-mono text-red-400">
+                  {m.sedate}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div>
+        <h4 className="font-heading font-semibold text-golden mb-3">
+          12-Hour Opposite Law Matrix
+        </h4>
+        <div className="overflow-x-auto rounded-lg border border-border">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border hover:bg-transparent">
+                {[
+                  "Onset Stage",
+                  "Onset Time",
+                  "Best Treatment Time",
+                  "Conflict",
+                  "Toxic State",
+                ].map((h) => (
+                  <TableHead key={h} className="text-golden font-semibold">
+                    {h}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {OPPOSITE_LAW.map((row) => (
+                <TableRow key={row.onsetStage} className="border-border">
+                  <TableCell>
+                    <StageBadge stage={row.onsetStage} />
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {row.onsetTime}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs text-golden">
+                    {row.treatTime}
+                  </TableCell>
+                  <TableCell className="text-xs text-muted-foreground">
+                    {row.conflict}
+                  </TableCell>
+                  <TableCell className="text-xs">{row.toxicClear}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      <div>
+        <h4 className="font-heading font-semibold text-golden mb-3">
+          Diagnostic Color & Frequency Key — GaAlAr Laser
+        </h4>
+        <div className="overflow-x-auto rounded-lg border border-border">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border hover:bg-transparent">
+                {[
+                  "Stage",
+                  "Toxic State",
+                  "Laser Spectrum",
+                  "Frequency",
+                  "Quantum Action",
+                ].map((h) => (
+                  <TableHead key={h} className="text-golden font-semibold">
+                    {h}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {QI_STAGES.map((s) => (
+                <TableRow key={s.name} className="border-border">
+                  <TableCell>
+                    <StageBadge stage={s.name} />
+                  </TableCell>
+                  <TableCell className="text-xs text-muted-foreground">
+                    {s.toxicFlavor.slice(0, 50)}
+                  </TableCell>
+                  <TableCell className="text-xs">{s.laserSpectrum}</TableCell>
+                  <TableCell className="text-xs font-mono">
+                    {s.frequency}
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    {s.laserProtocol.split("(")[1]?.replace(")", "") ??
+                      s.laserProtocol}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      <div>
+        <h4 className="font-heading font-semibold text-golden mb-3">
+          Conditional Formatting Color Key
+        </h4>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {colorKey.map((c) => (
+            <div
+              key={c.stage}
+              className={`rounded-lg p-3 text-center ${getStageColor(c.stage)}`}
+            >
+              <p className="font-bold text-sm">{c.stage}</p>
+              <p className="text-xs opacity-75">Fill: {c.color}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AstroVastuTab() {
+  const vastuMap = [
+    {
+      direction: "North (N)",
+      qiStage: "WIND",
+      officeArea: "Entrance / Open Space",
+      sujok: "Chong Mai (Vertical Flow)",
+      flaw: "Heavy Storage / Toilets",
+      toxic: "Business Hit: Loss of clients",
+      remedy: "Keep light; use Green plants",
+    },
+    {
+      direction: "North-East (NE)",
+      qiStage: "HUMIDITY",
+      officeArea: "Prayer / Creative Zone",
+      sujok: "Brain / Pituitary",
+      flaw: "Toilet / Kitchen / Clutter",
+      toxic: "Chandra Mental Hit: Disturbances",
+      remedy: "Must be clean/open for Mother energy",
+    },
+    {
+      direction: "East (E)",
+      qiStage: "HEAT",
+      officeArea: "Sales / Interaction",
+      sujok: "Heart / Lungs",
+      flaw: "South entrance during Mars Dasha",
+      toxic: "Legal pains / fund drainage",
+      remedy: "Red Jasper or Copper wire",
+    },
+    {
+      direction: "South-East (SE)",
+      qiStage: "WARMNESS",
+      officeArea: "Pantry / Server Room",
+      sujok: "Liver / Gallbladder",
+      flaw: "N/A",
+      toxic: "Moderate imbalance",
+      remedy: "Keep active and productive",
+    },
+    {
+      direction: "South (S)",
+      qiStage: "DRYNESS",
+      officeArea: "Storage / Filing",
+      sujok: "Large Intestine",
+      flaw: "Borewell / Blue Color / Cut",
+      toxic: "Mars Consumption: Legal pains",
+      remedy: "No borewell/water; place Red Jasper",
+    },
+    {
+      direction: "South-West (SW)",
+      qiStage: "STILLNESS",
+      officeArea: "Owner's Cabin (Your Seat)",
+      sujok: "Spine / Kidneys",
+      flaw: "Entrance / Underground Tank",
+      toxic: "Rahu Consumption: Total chaos",
+      remedy: "Install Rahu Yantra or heavy brass",
+    },
+    {
+      direction: "West (W)",
+      qiStage: "COLDNESS",
+      officeArea: "Operations / Backend",
+      sujok: "Bladder",
+      flaw: "Main Entrance / Window",
+      toxic: "Saturn Hit: Bank balance delays",
+      remedy: "Add lead metal or heavy furniture",
+    },
+    {
+      direction: "North-West (NW)",
+      qiStage: "DARKNESS",
+      officeArea: "Accounts / Reception",
+      sujok: "Stomach",
+      flaw: "N/A",
+      toxic: "Moderate",
+      remedy: "Keep organized and clear",
+    },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <InfoCard title="Medical Astro Vāstu — Sujok-Vastu Floor Plan">
+        <p>
+          The office floor is treated as a human hand in Sujok. The Main
+          Entrance is the "mouth" of the energy flow. Each direction maps to an
+          8-Stage Qi and corresponding organ system.
+        </p>
+        <p>
+          <strong className="text-golden/80">
+            Primary Direction for Practitioner:
+          </strong>{" "}
+          Sit in West or South-West sector, facing East or North-East.
+        </p>
+        <p>
+          <strong className="text-golden/80">120° Angle Rule:</strong> For
+          non-confrontational interactions, sit at 120° from the patient/client
+          rather than direct 180° opposition.
+        </p>
+      </InfoCard>
+
+      <div className="overflow-x-auto rounded-lg border border-border">
+        <Table>
+          <TableHeader>
+            <TableRow className="border-border hover:bg-transparent">
+              {[
+                "Direction",
+                "8-Stage Qi",
+                "Office Area",
+                "Sujok Map",
+                "Potential Flaw",
+                "Toxic Result",
+                "Remedy",
+              ].map((h) => (
+                <TableHead
+                  key={h}
+                  className="text-golden font-semibold whitespace-nowrap"
+                >
+                  {h}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {vastuMap.map((row) => (
+              <TableRow
+                key={row.direction}
+                className="border-border hover:bg-muted/20"
+              >
+                <TableCell className="font-medium text-xs text-golden/80 whitespace-nowrap">
+                  {row.direction}
+                </TableCell>
+                <TableCell>
+                  <StageBadge stage={row.qiStage} />
+                </TableCell>
+                <TableCell className="text-xs">{row.officeArea}</TableCell>
+                <TableCell className="text-xs text-muted-foreground">
+                  {row.sujok}
+                </TableCell>
+                <TableCell className="text-xs text-red-400">
+                  {row.flaw}
+                </TableCell>
+                <TableCell className="text-xs">{row.toxic}</TableCell>
+                <TableCell className="text-xs text-green-400 min-w-[160px]">
+                  {row.remedy}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <InfoCard title="Strategic Sitting Protocol">
+          <p>
+            <strong className="text-golden/80">My Position:</strong> West or SW
+            sector (Stillness/Earth = Authority)
+          </p>
+          <p>
+            <strong className="text-golden/80">Facing Direction:</strong> East
+            or North-East (Aligns with Sūryā Nādī / Qian energy)
+          </p>
+          <p>
+            <strong className="text-golden/80">Patient Position:</strong> East
+            or South-East facing West
+          </p>
+          <p>
+            <strong className="text-golden/80">Optimal Angle:</strong> 120°
+            Normal Degree for productive interaction
+          </p>
+          <p>
+            <strong className="text-golden/80">Avoid:</strong> 180° Direct Hit
+            (confrontational); 90° Square Hit (tension)
+          </p>
+        </InfoCard>
+        <InfoCard title="Auspicious Muhurta Guidance">
+          <p>
+            <strong className="text-golden/80">Best Daily Window:</strong> 10:45
+            AM – 12:15 PM (IST) — Abhijit Muhurta
+          </p>
+          <p>
+            <strong className="text-golden/80">Best Weekly Day:</strong> Friday
+            (Venus/Shukra) for wealth interactions
+          </p>
+          <p>
+            <strong className="text-golden/80">Current Dasha Note:</strong>{" "}
+            Moon-Venus combination supports business property transactions
+          </p>
+          <p>
+            <strong className="text-golden/80">Rahu Kaal:</strong> Avoid on
+            Fridays ~11:00 AM; begin talk at 10:48 AM
+          </p>
+          <p>
+            <strong className="text-golden/80">Remedy:</strong> Wear
+            white/silver; sip water (Chāndrā element) to cool negotiation Heat
+          </p>
+        </InfoCard>
+      </div>
     </div>
   );
 }
@@ -542,48 +1319,29 @@ export function ReferenceLibrary() {
 
       <Tabs defaultValue="pulse" data-ocid="reference_library.tab">
         <TabsList className="bg-card border border-border flex-wrap h-auto gap-1 p-1 mb-4">
-          <TabsTrigger
-            value="pulse"
-            data-ocid="reference_library.pulse.tab"
-            className="data-[state=active]:bg-golden data-[state=active]:text-primary-foreground"
-          >
-            Pulse Diagnosis
-          </TabsTrigger>
-          <TabsTrigger
-            value="elements"
-            data-ocid="reference_library.elements.tab"
-            className="data-[state=active]:bg-golden data-[state=active]:text-primary-foreground"
-          >
-            Five Elements
-          </TabsTrigger>
-          <TabsTrigger
-            value="trigrams"
-            data-ocid="reference_library.trigrams.tab"
-            className="data-[state=active]:bg-golden data-[state=active]:text-primary-foreground"
-          >
-            Eight Trigrams
-          </TabsTrigger>
-          <TabsTrigger
-            value="iching"
-            data-ocid="reference_library.iching.tab"
-            className="data-[state=active]:bg-golden data-[state=active]:text-primary-foreground"
-          >
-            I Ching
-          </TabsTrigger>
-          <TabsTrigger
-            value="acupuncture"
-            data-ocid="reference_library.acupuncture.tab"
-            className="data-[state=active]:bg-golden data-[state=active]:text-primary-foreground"
-          >
-            Acupuncture
-          </TabsTrigger>
-          <TabsTrigger
-            value="pma"
-            data-ocid="reference_library.pma.tab"
-            className="data-[state=active]:bg-golden data-[state=active]:text-primary-foreground"
-          >
-            PMA Guide
-          </TabsTrigger>
+          {[
+            ["pulse", "Pulse Dx"],
+            ["elements", "5 Elements"],
+            ["trigrams", "Trigrams"],
+            ["iching", "I Ching"],
+            ["acupuncture", "Acupuncture"],
+            ["pma", "PMA Guide"],
+            ["triorigin", "Triorigin"],
+            ["vessels", "Ext. Vessels"],
+            ["hexmatrix", "Hex Matrix"],
+            ["drtung", "Dr. Tung"],
+            ["hittheory", "Hit Theory"],
+            ["astrovastu", "Astro Vastu"],
+          ].map(([v, label]) => (
+            <TabsTrigger
+              key={v}
+              value={v}
+              data-ocid={`reference_library.${v}.tab`}
+              className="data-[state=active]:bg-golden data-[state=active]:text-primary-foreground text-xs"
+            >
+              {label}
+            </TabsTrigger>
+          ))}
         </TabsList>
         <TabsContent value="pulse">
           <PulseDiagnosis />
@@ -602,6 +1360,24 @@ export function ReferenceLibrary() {
         </TabsContent>
         <TabsContent value="pma">
           <PMAGuide />
+        </TabsContent>
+        <TabsContent value="triorigin">
+          <TrioriginTab />
+        </TabsContent>
+        <TabsContent value="vessels">
+          <ExtVesselsTab />
+        </TabsContent>
+        <TabsContent value="hexmatrix">
+          <HexMatrixTab />
+        </TabsContent>
+        <TabsContent value="drtung">
+          <DrTungTab />
+        </TabsContent>
+        <TabsContent value="hittheory">
+          <HitTheoryTab />
+        </TabsContent>
+        <TabsContent value="astrovastu">
+          <AstroVastuTab />
         </TabsContent>
       </Tabs>
     </div>

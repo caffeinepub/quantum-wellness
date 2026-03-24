@@ -1,6 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import {
   Activity,
+  Atom,
   BookOpen,
   LayoutDashboard,
   PlusCircle,
@@ -12,6 +13,7 @@ const navItems = [
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/patients", label: "Patients", icon: Users },
   { path: "/new-session", label: "New Session", icon: PlusCircle },
+  { path: "/quantum", label: "Quantum Dx", icon: Atom },
   { path: "/reference-library", label: "Reference Library", icon: BookOpen },
   { path: "/profile", label: "Profile", icon: User },
 ];

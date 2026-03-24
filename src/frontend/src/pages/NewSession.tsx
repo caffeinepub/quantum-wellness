@@ -22,6 +22,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import {
+  BIT_TO_STAGE,
+  HEX_MATRIX,
+  MERIDIANS_DATA,
+  STAGE_WEIGHTS,
+  getStageColor,
+} from "../data/quantumData";
 import { useAddSession, usePatients } from "../hooks/useQueries";
 import type { MeridianReading } from "../hooks/useQueries";
 
@@ -51,12 +58,30 @@ const MERIDIANS = [
   "PC-Pericardium",
 ];
 
+// Map full meridian names to their codes
+const MERIDIAN_CODE_MAP: Record<string, string> = {
+  "GB-Gallbladder": "GB",
+  "LR-Liver": "LR",
+  "ST-Stomach": "ST",
+  "SP-Spleen": "SP",
+  "BL-Bladder": "UB",
+  "KI-Kidney": "KI",
+  "SI-Small Intestine": "SI",
+  "HT-Heart": "HT",
+  "LI-Large Intestine": "LI",
+  "LU-Lung": "LU",
+  "TE-Triple Energizer": "TE",
+  "PC-Pericardium": "PC",
+};
+
 type MeridianRow = {
   qi: string;
   pitta: string;
   kapha: string;
   vata: string;
   acidBase: string;
+  upperBit: string;
+  lowerBit: string;
 };
 
 const emptyMeridian: MeridianRow = {
@@ -65,7 +90,19 @@ const emptyMeridian: MeridianRow = {
   kapha: "50",
   vata: "50",
   acidBase: "0",
+  upperBit: "",
+  lowerBit: "",
 };
+
+function StageBadge({ stage }: { stage: string }) {
+  return (
+    <span
+      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold ${getStageColor(stage)}`}
+    >
+      {stage}
+    </span>
+  );
+}
 
 export function NewSession() {
   const { data: patients = [] } = usePatients();
@@ -90,11 +127,65 @@ export function NewSession() {
     field: keyof MeridianRow,
     value: string,
   ) {
+    if (field === "upperBit" || field === "lowerBit") {
+      if (!/^[01]{0,3}$/.test(value)) return;
+    }
     setReadings((prev) => ({
       ...prev,
       [meridian]: { ...prev[meridian], [field]: value },
     }));
   }
+
+  function getHex(m: string) {
+    const { upperBit, lowerBit } = readings[m];
+    if (upperBit.length === 3 && lowerBit.length === 3)
+      return upperBit + lowerBit;
+    return "";
+  }
+
+  function getStage(m: string) {
+    const { upperBit } = readings[m];
+    if (upperBit.length === 3) return BIT_TO_STAGE[upperBit] ?? "";
+    return "";
+  }
+
+  function getDiagnosis(m: string) {
+    const hex = getHex(m);
+    if (!hex) return "";
+    return (
+      HEX_MATRIX.find((h) => h.hex === hex)?.diagnosis ?? "Analyze via 120° Law"
+    );
+  }
+
+  function getMeridianRef(m: string) {
+    const code = MERIDIAN_CODE_MAP[m];
+    return MERIDIANS_DATA.find((d) => d.code === code);
+  }
+
+  // Bio-Field Health % from bit entries
+  const enteredMeridians = MERIDIANS.filter(
+    (m) => readings[m].upperBit.length === 3,
+  );
+  const healthPct =
+    enteredMeridians.length > 0
+      ? Math.round(
+          (enteredMeridians.reduce(
+            (sum, m) => sum + (STAGE_WEIGHTS[getStage(m)] ?? 5),
+            0,
+          ) /
+            (enteredMeridians.length * 10)) *
+            100,
+        )
+      : null;
+
+  const healthColor =
+    healthPct === null
+      ? "text-muted-foreground"
+      : healthPct < 40
+        ? "text-red-500"
+        : healthPct < 70
+          ? "text-yellow-400"
+          : "text-purple-400";
 
   async function handleSave() {
     if (!patientId) {
@@ -201,64 +292,158 @@ export function NewSession() {
 
       {/* Meridian Readings */}
       <Card className="bg-card border-border">
-        <CardHeader>
-          <CardTitle className="font-heading text-base text-golden">
-            Meridian Readings
-          </CardTitle>
+        <CardHeader className="pb-2">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <CardTitle className="font-heading text-base text-golden">
+              Meridian Readings
+            </CardTitle>
+            {healthPct !== null && (
+              <div className="text-right">
+                <p className="text-xs text-muted-foreground">
+                  Bio-Field Health
+                </p>
+                <p className={`text-xl font-heading font-bold ${healthColor}`}>
+                  {healthPct}%
+                </p>
+              </div>
+            )}
+          </div>
+          <p className="text-xs text-muted-foreground mt-1">
+            Upper Bit = +ve / Acidic peaks above baseline · Lower Bit = -ve /
+            Alkaline depth below baseline
+          </p>
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <Table data-ocid="new_session.meridian.table">
               <TableHeader>
                 <TableRow className="border-border hover:bg-transparent">
-                  <TableHead className="text-muted-foreground font-medium w-44">
+                  <TableHead className="text-muted-foreground font-medium w-40">
                     Meridian
                   </TableHead>
                   <TableHead className="text-muted-foreground font-medium text-center">
-                    Qi (0-100)
+                    Qi
                   </TableHead>
                   <TableHead className="text-muted-foreground font-medium text-center">
-                    Pitta (0-100)
+                    Pitta
                   </TableHead>
                   <TableHead className="text-muted-foreground font-medium text-center">
-                    Kapha (0-100)
+                    Kapha
                   </TableHead>
                   <TableHead className="text-muted-foreground font-medium text-center">
-                    Vata (0-100)
+                    Vata
                   </TableHead>
                   <TableHead className="text-muted-foreground font-medium text-center">
                     Acid-Base
                   </TableHead>
+                  <TableHead className="text-purple-300 font-medium text-center">
+                    Upper Bit
+                  </TableHead>
+                  <TableHead className="text-blue-300 font-medium text-center">
+                    Lower Bit
+                  </TableHead>
+                  <TableHead className="text-muted-foreground font-medium">
+                    Hex
+                  </TableHead>
+                  <TableHead className="text-muted-foreground font-medium">
+                    Qi Stage
+                  </TableHead>
+                  <TableHead className="text-muted-foreground font-medium min-w-[160px]">
+                    Diagnosis
+                  </TableHead>
+                  <TableHead className="text-green-400 font-medium">
+                    Tonify
+                  </TableHead>
+                  <TableHead className="text-red-400 font-medium">
+                    Sedate
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {MERIDIANS.map((m, i) => (
-                  <TableRow
-                    key={m}
-                    className="border-border"
-                    data-ocid={`new_session.meridian.row.${i + 1}`}
-                  >
-                    <TableCell className="font-medium text-sm text-golden/80">
-                      {m}
-                    </TableCell>
-                    {(
-                      ["qi", "pitta", "kapha", "vata", "acidBase"] as const
-                    ).map((field) => (
-                      <TableCell key={field} className="p-1">
+                {MERIDIANS.map((m, i) => {
+                  const stage = getStage(m);
+                  const hex = getHex(m);
+                  const diag = getDiagnosis(m);
+                  const ref = getMeridianRef(m);
+                  return (
+                    <TableRow
+                      key={m}
+                      className="border-border"
+                      data-ocid={`new_session.meridian.row.${i + 1}`}
+                    >
+                      <TableCell className="font-medium text-xs text-golden/80">
+                        {m}
+                      </TableCell>
+                      {(
+                        ["qi", "pitta", "kapha", "vata", "acidBase"] as const
+                      ).map((field) => (
+                        <TableCell key={field} className="p-1">
+                          <Input
+                            type="number"
+                            value={readings[m][field]}
+                            onChange={(e) =>
+                              setReadingField(m, field, e.target.value)
+                            }
+                            className="bg-input border-border text-center h-8 text-xs w-16 mx-auto"
+                            min={field === "acidBase" ? -100 : 0}
+                            max={100}
+                          />
+                        </TableCell>
+                      ))}
+                      {/* Upper Bit */}
+                      <TableCell className="p-1">
                         <Input
-                          type="number"
-                          value={readings[m][field]}
+                          value={readings[m].upperBit}
                           onChange={(e) =>
-                            setReadingField(m, field, e.target.value)
+                            setReadingField(m, "upperBit", e.target.value)
                           }
-                          className="bg-input border-border text-center h-8 text-sm w-20 mx-auto"
-                          min={field === "acidBase" ? -100 : 0}
-                          max={100}
+                          placeholder="001"
+                          maxLength={3}
+                          className="bg-input border-purple-800/50 text-center h-8 text-xs w-16 mx-auto font-mono"
+                          data-ocid={`new_session.${m.replace(/-.*/, "").toLowerCase()}.upper.input`}
                         />
                       </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
+                      {/* Lower Bit */}
+                      <TableCell className="p-1">
+                        <Input
+                          value={readings[m].lowerBit}
+                          onChange={(e) =>
+                            setReadingField(m, "lowerBit", e.target.value)
+                          }
+                          placeholder="010"
+                          maxLength={3}
+                          className="bg-input border-blue-800/50 text-center h-8 text-xs w-16 mx-auto font-mono"
+                          data-ocid={`new_session.${m.replace(/-.*/, "").toLowerCase()}.lower.input`}
+                        />
+                      </TableCell>
+                      <TableCell className="font-mono text-xs text-muted-foreground">
+                        {hex || "—"}
+                      </TableCell>
+                      <TableCell>
+                        {stage ? (
+                          <StageBadge stage={stage} />
+                        ) : (
+                          <span className="text-muted-foreground text-xs">
+                            —
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-xs min-w-[140px]">
+                        {diag || (
+                          <span className="text-muted-foreground">
+                            Enter bits
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-xs text-green-400">
+                        {stage ? ref?.tonify : "—"}
+                      </TableCell>
+                      <TableCell className="text-xs text-red-400">
+                        {stage ? ref?.sedate : "—"}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>

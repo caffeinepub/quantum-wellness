@@ -13,6 +13,7 @@ import { Dashboard } from "./pages/Dashboard";
 import { NewSession } from "./pages/NewSession";
 import { Patients } from "./pages/Patients";
 import { Profile } from "./pages/Profile";
+import { QuantumDiagnostics } from "./pages/QuantumDiagnostics";
 import { ReferenceLibrary } from "./pages/ReferenceLibrary";
 
 const queryClient = new QueryClient({
@@ -56,6 +57,12 @@ const newSessionRoute = createRoute({
   component: NewSession,
 });
 
+const quantumRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/quantum",
+  component: QuantumDiagnostics,
+});
+
 const referenceLibraryRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/reference-library",
@@ -73,6 +80,7 @@ const routeTree = rootRoute.addChildren([
   dashboardRoute,
   patientsRoute,
   newSessionRoute,
+  quantumRoute,
   referenceLibraryRoute,
   profileRoute,
 ]);
