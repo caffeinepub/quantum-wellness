@@ -39,13 +39,29 @@ export function Dashboard() {
 
   return (
     <div className="p-6 space-y-6" data-ocid="dashboard.page">
-      <div>
-        <h1 className="font-heading text-2xl font-bold text-golden">
-          Dashboard
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Overview of your practice
-        </p>
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <h1 className="font-heading text-2xl font-bold text-golden">
+            Dashboard
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Overview of your practice
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <img
+            src="/assets/uploads/screenshot_20260319_044050-019d1d12-e025-73cb-9547-d73ee90a9e4e-1.jpg"
+            alt="Quantum Wellness Logo 1"
+            style={{ height: 60, objectFit: "contain" }}
+            className="rounded"
+          />
+          <img
+            src="/assets/uploads/incollage_20260319_050835977-019d1d13-1216-717c-aed3-5b27fd0e0c0d-7.jpg"
+            alt="Quantum Wellness Logo 2"
+            style={{ height: 60, objectFit: "contain" }}
+            className="rounded"
+          />
+        </div>
       </div>
 
       {/* Stats */}

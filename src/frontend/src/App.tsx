@@ -1,5 +1,4 @@
 import { Toaster } from "@/components/ui/sonner";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Navigate,
   Outlet,
@@ -8,6 +7,7 @@ import {
   createRoute,
   createRouter,
 } from "@tanstack/react-router";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { PasswordGate } from "./components/PasswordGate";
 import { Sidebar } from "./components/Sidebar";
 import { Dashboard } from "./pages/Dashboard";
@@ -16,10 +16,6 @@ import { Patients } from "./pages/Patients";
 import { Profile } from "./pages/Profile";
 import { QuantumDiagnostics } from "./pages/QuantumDiagnostics";
 import { ReferenceLibrary } from "./pages/ReferenceLibrary";
-
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { staleTime: 30_000 } },
-});
 
 function Layout() {
   return (
@@ -96,11 +92,11 @@ declare module "@tanstack/react-router" {
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <ErrorBoundary>
       <PasswordGate>
         <RouterProvider router={router} />
       </PasswordGate>
       <Toaster richColors position="top-right" />
-    </QueryClientProvider>
+    </ErrorBoundary>
   );
 }

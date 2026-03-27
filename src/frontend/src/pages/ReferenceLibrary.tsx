@@ -400,9 +400,13 @@ function FiveElements() {
       emotion: "Anger / Frustration",
       season: "Spring",
       time: "11pm–3am",
-      color: "Green",
       colorHex: "#22c55e",
       taste: "Sour",
+      powerhouse: "Endoplasmic Reticulum (ER) — Production Facility",
+      functions:
+        "Structure: A Network of Membranous Tubules & Sacs (Cisternae) continuous with the Nuclear Membrane.\n\nTypes & Functions:\n• Rough ER (RER): Studded with Ribosomes; Synthesizes Proteins.\n• Smooth ER (SER): Lacks Ribosomes; Synthesizes Lipids & Detoxifies Bio-Photonic, Bio-Reasonanz Cellular Neuronal Nerven Networks.\n\nKey Detail: Acts as a Major Transport Network Within the Bio-Photonic, Bio-Reasonanz Cellular Neuronal Nerven Networks.\n\nMembrane Type: Single\nPrimary Function: Protein/Lipid Synthesis & Transport",
+      communication:
+        "Myofibrils (containing Sarcomeres) — Long, cylindrical contractile organelles filling the sarcoplasm. Made of repeating functional units called sarcomeres, which shorten during contraction to create movement. Thin (actin) filaments slide over thick (myosin) filaments to cause contraction.",
     },
     {
       element: "Fire 火",
@@ -410,9 +414,13 @@ function FiveElements() {
       emotion: "Joy / Anxiety",
       season: "Summer",
       time: "11am–3pm",
-      color: "Red",
       colorHex: "#ef4444",
       taste: "Bitter",
+      powerhouse: "Golgi Apparatus (GA) — Post Office",
+      functions:
+        "Structure: A Series of Stacked, Flattened Pouches Called Cisternae.\n\nFunction: Receives, modifies, sorts, & Packages Proteins & Lipids from the ER for Transport.\n\nKey Detail: Tags Products with Sugar Molecules to identify their Final Destination.\n\nMembrane Type: Single\nPrimary Function: Processing & Packaging",
+      communication:
+        "Sarcoplasmic Reticulum (SR) — Specialized, modified smooth endoplasmic reticulum that wraps around myofibrils. Primary storage site for calcium ions (Ca2+). Upon receiving a nerve signal, the SR releases Ca2+ to initiate contraction, then actively pumps it back to facilitate relaxation.",
     },
     {
       element: "Earth 土",
@@ -420,9 +428,13 @@ function FiveElements() {
       emotion: "Worry / Pensiveness",
       season: "Late Summer",
       time: "7am–11am",
-      color: "Yellow",
       colorHex: "#eab308",
       taste: "Sweet",
+      powerhouse: "Lysosomes — Recycling Centers",
+      functions:
+        "Structure: Single Membrane-Bound Vesicles containing acidic hydrolytic enzymes.\n\nFunction: Digests Unwanted Material, Foreign Invaders, and old Bio-Photonic, Bio-Reasonanz Cellular parts (autophagy).\n\nKey Detail: Highly Acidic Interior allows Digestive enzymes to work optimally.\n\nMembrane Type: Single\nPrimary Function: Digestion & Waste Removal",
+      communication:
+        "Nuclei (Multinucleated) — Skeletal muscle cells are multinucleated, formed from fusion of many myoblasts. Multiple nuclei are crucial for managing the intense metabolic needs of a large cell and essential for protein synthesis (hypertrophy) during muscle expansion and repair.",
     },
     {
       element: "Metal 金",
@@ -430,9 +442,13 @@ function FiveElements() {
       emotion: "Grief / Sadness",
       season: "Autumn",
       time: "3am–7am",
-      color: "White",
       colorHex: "#e2e8f0",
       taste: "Pungent",
+      powerhouse: "Mitochondria — The Powerhouse",
+      functions:
+        "Structure: Double Membrane-Bound, Bean-Shaped Organelles with their own DNA & ribosomes.\n\nFunction: Produces Energy ⚡ (ATP = Adenosine Tri Phosphate, Primary Energy Carrier Molecule Found in all Living Cells) for Bio-Photonic, Bio-Reasonanz Cell through Aerobic Cellular Respiration.\n\nATP: Consists of adenosine (Adenine + Ribose Sugar) & 3 phosphate groups. Releases energy when a phosphate bond is broken, converting ATP into ADP (Adenosine Diphosphate). Essential for Active Transport, Protein Synthesis & Muscle Contraction.\n\nKey Detail: Considered Semi-Autonomous Due to having their own Genetic Material.\n\nMembrane Type: Double\nPrimary Function: ATP Generation (Bio-Photonic, Bio-Reasonanz Respiration)",
+      communication:
+        "Mitochondria (Sarcosomes) — Exceptionally abundant in muscle cells, particularly type I and IIa fibers requiring high energy (ATP) for sustained movement. Provide energy for myosin heads to pull actin, for the sarcoplasmic reticulum to pump calcium back, and for muscle repair.",
     },
     {
       element: "Water 水",
@@ -440,9 +456,13 @@ function FiveElements() {
       emotion: "Fear / Willpower",
       season: "Winter",
       time: "3pm–7pm",
-      color: "Black/Blue",
       colorHex: "#3b82f6",
       taste: "Salty",
+      powerhouse: "Plasma Membrane (PM) — Cell Boundary",
+      functions:
+        "Structure: A Thin, Flexible Phospholipid Bilayer that Separates the cell from its Environment.\n\nFunction: Acts as a Selectively Permeable barrier, regulating what enters & leaves the Bio-Photonic, Bio-Reasonanz cell.\n\nKey Detail: Participates actively in passive & active transport to maintain homeostasis.\n\nMembrane Type: Single (Lipid Bilayer)\nPrimary Function: Selective Permeability & Protection / चयनात्मक पारगम्यता एवं संरक्षण",
+      communication:
+        "Sarcolemma & T-tubules — The sarcolemma is the muscle cell membrane. Transverse tubules (T-tubules) are deep invaginations of the sarcolemma that allow electrical impulses (action potentials) to rapidly travel to the interior of the muscle fiber, ensuring the entire cell contracts uniformly.",
     },
   ];
   return (
@@ -458,10 +478,15 @@ function FiveElements() {
                 "Emotion",
                 "Season",
                 "Time",
-                "Color",
                 "Taste",
+                "Self Generated Powerhouse — Cellular Bio-Photonic, Bio-Reasonanz 5 Örägànälè",
+                "5 Örägànälè's Functions",
+                "5 Organale Cellular Bio-Photonic, Bio-Reasonanz Communication",
               ].map((h) => (
-                <TableHead key={h} className="text-golden font-semibold">
+                <TableHead
+                  key={h}
+                  className="text-golden font-semibold min-w-[160px]"
+                >
                   {h}
                 </TableHead>
               ))}
@@ -473,23 +498,48 @@ function FiveElements() {
                 key={row.element}
                 className="border-border hover:bg-muted/30"
               >
-                <TableCell className="font-medium text-golden/80">
+                <TableCell
+                  className="font-bold"
+                  style={{ color: row.colorHex }}
+                >
                   {row.element}
                 </TableCell>
-                <TableCell>{row.organ}</TableCell>
-                <TableCell>{row.emotion}</TableCell>
-                <TableCell>{row.season}</TableCell>
-                <TableCell>{row.time}</TableCell>
-                <TableCell>
-                  <span className="inline-flex items-center gap-2">
-                    <span
-                      style={{ background: row.colorHex }}
-                      className="inline-block w-4 h-4 rounded-full border border-white/20 flex-shrink-0"
-                    />
-                    {row.color}
-                  </span>
+                <TableCell style={{ color: row.colorHex }}>
+                  {row.organ}
                 </TableCell>
-                <TableCell>{row.taste}</TableCell>
+                <TableCell style={{ color: row.colorHex }}>
+                  {row.emotion}
+                </TableCell>
+                <TableCell style={{ color: row.colorHex }}>
+                  {row.season}
+                </TableCell>
+                <TableCell style={{ color: row.colorHex }}>
+                  {row.time}
+                </TableCell>
+                <TableCell style={{ color: row.colorHex }}>
+                  {row.taste}
+                </TableCell>
+                <TableCell style={{ color: row.colorHex }}>
+                  {row.powerhouse}
+                </TableCell>
+                <TableCell
+                  style={{
+                    color: row.colorHex,
+                    whiteSpace: "pre-line",
+                    minWidth: 320,
+                  }}
+                >
+                  {row.functions}
+                </TableCell>
+                <TableCell
+                  style={{
+                    color: row.colorHex,
+                    whiteSpace: "pre-line",
+                    minWidth: 320,
+                  }}
+                >
+                  {row.communication}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
