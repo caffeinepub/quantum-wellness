@@ -2,11 +2,60 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
-    <script type="module" crossorigin src="/assets/index-DDBbrsDy.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-YiMBq8W2.css">
+    <title>Quantum Wellness</title>
+    <style>
+      #app-loading {
+        position: fixed; inset: 0;
+        background: #0a0a1a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        font-family: sans-serif;
+        color: #e0c97f;
+      }
+      #app-loading p { margin-top: 16px; font-size: 15px; letter-spacing: 1px; }
+      .spinner {
+        width: 48px; height: 48px;
+        border: 4px solid rgba(224,201,127,0.2);
+        border-top-color: #e0c97f;
+        border-radius: 50%;
+        animation: spin 0.9s linear infinite;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+    <script type="module" crossorigin src="/assets/index-CcmaINTq.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CM7IdfiE.css">
   </head>
   <body>
+    <div id="app-loading">
+      <div class="spinner"></div>
+      <p>Quantum Wellness — Loading...</p>
+    </div>
     <div id="root"></div>
+    <script>
+      window.addEventListener('error', function(e) {
+        document.getElementById('app-loading').innerHTML =
+          '<div style="padding:32px;text-align:center;max-width:480px">' +
+          '<h2 style="color:#f59e0b;margin-bottom:12px">Quantum Wellness</h2>' +
+          '<p style="color:#e0e0e0;margin-bottom:8px">An error occurred loading the app.</p>' +
+          '<p style="color:#f87171;font-size:12px;margin-bottom:16px">' + (e.message || 'Unknown error') + '</p>' +
+          '<button onclick="location.reload()" style="padding:10px 24px;background:#f59e0b;color:#000;border:none;border-radius:6px;cursor:pointer;font-weight:600">Refresh App</button>' +
+          '</div>';
+      });
+    </script>
+    <script>
+      // Hide loading spinner once React mounts
+      document.addEventListener('DOMContentLoaded', function() {
+        var observer = new MutationObserver(function() {
+          if (document.getElementById('root').children.length > 0) {
+            var loader = document.getElementById('app-loading');
+            if (loader) loader.style.display = 'none';
+          }
+        });
+        observer.observe(document.getElementById('root'), { childList: true, subtree: true });
+      });
+    </script>
   </body>
 </html>

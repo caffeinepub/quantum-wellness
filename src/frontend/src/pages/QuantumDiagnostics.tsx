@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion } from "motion/react";
+
 import { useEffect, useState } from "react";
 import {
   PolarAngleAxis,
@@ -67,11 +67,7 @@ function OrganClockHeader() {
   const colorClass = getStageColor(stageName);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -12 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="rounded-xl border border-border bg-card overflow-hidden"
-    >
+    <div>
       <div className={`px-6 py-3 ${colorClass} flex items-center gap-3`}>
         <span className="text-2xl font-mono font-bold">{istTime} IST</span>
         <span className="text-lg font-heading font-semibold">
@@ -102,7 +98,7 @@ function OrganClockHeader() {
           <p className="font-semibold text-golden/80">{stage?.singularity}</p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -110,11 +106,7 @@ function QuantumSingularityPanel() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {/* Du Mai White Hole */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        className="rounded-xl border border-orange-500/40 bg-gradient-to-br from-orange-950/60 to-yellow-950/40 p-5 shadow-[0_0_30px_rgba(249,115,22,0.15)]"
-      >
+      <div>
         <div className="text-center mb-3">
           <div className="text-4xl mb-1">☰</div>
           <h3 className="font-heading font-bold text-orange-300 text-lg">
@@ -156,15 +148,10 @@ function QuantumSingularityPanel() {
             base to crown (Baihui).
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Center Wormhole */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
-        className="rounded-xl border border-purple-500/30 bg-gradient-to-b from-purple-950/60 to-indigo-950/60 p-5 flex flex-col items-center justify-center text-center"
-      >
+      <div>
         <div className="text-5xl mb-3">🔄</div>
         <h3 className="font-heading font-bold text-purple-300 text-base mb-2">
           Microcosmic Orbit
@@ -189,15 +176,10 @@ function QuantumSingularityPanel() {
             Bit 0 → Lunar
           </span>
         </div>
-      </motion.div>
+      </div>
 
       {/* Ren Mai Black Hole */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.15 }}
-        className="rounded-xl border border-blue-500/30 bg-gradient-to-br from-blue-950/60 to-slate-950/60 p-5 shadow-[0_0_30px_rgba(59,130,246,0.1)]"
-      >
+      <div>
         <div className="text-center mb-3">
           <div className="text-4xl mb-1">☷</div>
           <h3 className="font-heading font-bold text-blue-300 text-lg">
@@ -239,7 +221,7 @@ function QuantumSingularityPanel() {
             nourish Dantian / Womb.
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -247,6 +229,308 @@ function QuantumSingularityPanel() {
 type BitState = { upper: string; lower: string };
 
 // Lookup map: clean 3-bit binary → BrainRecoveryRow
+interface BrainRecoveryRow {
+  moonPhase: string;
+  trigram: string;
+  direction: string;
+  element: string;
+  qiOrgan: string;
+  extraordinaryMeridian: string;
+  yinYang: string;
+  chakra: string;
+  quality: string;
+  binary: string;
+  brainRegion: string;
+  neurological: string;
+  microcontroller: string;
+  nadi: string;
+  healingStrategy: string;
+  acupuncture: string;
+  ayurveda: string;
+  quantumHealing: string;
+  healthScale: string;
+  solarSpectrum: string;
+  hexNormal: string;
+  hexDegen: string;
+  hexInflam: string;
+  rgbNormal: string;
+  rgbDegen: string;
+  rgbInflam: string;
+  qubitState: string;
+  diseaseProgression: string;
+  moonPhaseEnd: string;
+  rgbColor: string;
+  rowBg: string;
+}
+
+const BRAIN_RECOVERY_ROWS: BrainRecoveryRow[] = [
+  {
+    moonPhase: "5️⃣ New Moon 🌑 — 8️⃣",
+    trigram: "☷ Kūn (Earth) (E)",
+    direction: "2️⃣ SouthWest ← 180° Opposite Pairs → 5️⃣ SouthWest",
+    element: "Earth",
+    qiOrgan: "Ren Pure Yin 2️⃣ — Ren / Séx Circülätiön",
+    extraordinaryMeridian: "Ren Mai",
+    yinYang: "Yin Yin Yin",
+    chakra: "Root",
+    quality: "Receptive, Nurturing, Mother",
+    binary: "-000-",
+    brainRegion: "Brainstem (Autonomic Recovery)",
+    neurological: "Regulation of heart rate, respiration, digestion",
+    microcontroller: "System Reset",
+    nadi: "Chandra Nadi + Chandra Nadi + Chandra Nadi",
+    healingStrategy: "Stimulation of basic life functions",
+    acupuncture: "GV20 (Baihui), GV26 (Shuigou)",
+    ayurveda: "Brahmi, Ashwagandha, Tulsi",
+    quantumHealing: "Theta Wave Induction, Photonic Therapy",
+    healthScale: "50 (Normal)",
+    solarSpectrum: "Low Frequency",
+    hexNormal: "#666666",
+    hexDegen: "#CCCCCC",
+    hexInflam: "#666666",
+    rgbNormal: "102,102,102",
+    rgbDegen: "204,204,204",
+    rgbInflam: "102,102,102",
+    qubitState: "|0⟩",
+    diseaseProgression: "Darkness",
+    moonPhaseEnd: "New Moon",
+    rgbColor: "0,0,0",
+    rowBg: "border-l-4 border-l-slate-600 bg-slate-950/40",
+  },
+  {
+    moonPhase: "3️⃣ Waxing Crescent 🌒 — 6️⃣",
+    trigram: "☵ Kǎn (Water) — Abyss (A)",
+    direction: "1️⃣ North (Bottom ↘) ← 180° Opposite Pairs → 8️⃣ South (Top 🔝)",
+    element: "Water",
+    qiOrgan:
+      "Täi Yäng 3️⃣+6️⃣ — Small Intestine ~ Urinary Bladder — 1️⃣ Greater Yang",
+    extraordinaryMeridian: "Chong Mai (Urinary Bladder — Kidneys)",
+    yinYang: "Yang Yin Yang",
+    chakra: "Sacral",
+    quality: "Dangerous, Flowing, Middle Son",
+    binary: "-010-",
+    brainRegion: "Cerebellum (Motor Coordination)",
+    neurological: "Restoring balance, muscle tone, movement reflexes",
+    microcontroller: "Memory & I/O Handling",
+    nadi: "Chandra Nadi + Surya Nadi + Chandra Nadi",
+    healingStrategy: "Activation of motor response & muscle stimulation",
+    acupuncture: "ST36 (Zusanli), LI4 (Hegu)",
+    ayurveda: "Guggulu, Dashmool, Mahanarayan Oil",
+    quantumHealing: "Low-Frequency Pulsed Electromagnetic Therapy",
+    healthScale: "50-100 (Inflammation)",
+    solarSpectrum: "Medium",
+    hexNormal: "#999999",
+    hexDegen: "#C0C0C0",
+    hexInflam: "#333333",
+    rgbNormal: "153,153,153",
+    rgbDegen: "192,192,192",
+    rgbInflam: "51,51,51",
+    qubitState: "|1⟩",
+    diseaseProgression: "Brightness",
+    moonPhaseEnd: "Waxing Crescent",
+    rgbColor: "51,51,51",
+    rowBg: "border-l-4 border-l-blue-700 bg-blue-950/30",
+  },
+  {
+    moonPhase: "2️⃣ First Quarter 🌓 — 4️⃣",
+    trigram: "☳ Zhèn (Thunder) (T)",
+    direction: "3️⃣ East ← 180° Opposite Pairs → 6️⃣ West",
+    element: "Wood",
+    qiOrgan: "Jue Yin 4️⃣+5️⃣ — Pericardium ~ Liver — 6️⃣ Terminal Yin",
+    extraordinaryMeridian: "Yang Wei Mai (Pericardium — Triple Burner)",
+    yinYang: "Yang Yin Yin",
+    chakra: "Solar Plexus",
+    quality: "Arousing, Movement, Eldest Son",
+    binary: "-001+",
+    brainRegion: "Limbic System (Emotional & Memory Recovery)",
+    neurological: "Emotional reactivation, PTSD healing",
+    microcontroller: "Interrupt Processing",
+    nadi: "Chandra Nadi + Chandra Nadi + Surya Nadi",
+    healingStrategy: "Emotional stability & PTSD reduction",
+    acupuncture: "HT7 (Shenmen), PC6 (Neiguan)",
+    ayurveda: "Shankhpushpi, Jatamansi, Calamus",
+    quantumHealing: "Binaural Beats, Heart-Brain Coherence",
+    healthScale: "0-50 (Degeneration)",
+    solarSpectrum: "Wide",
+    hexNormal: "#333333",
+    hexDegen: "#111111",
+    hexInflam: "#444444",
+    rgbNormal: "51,51,51",
+    rgbDegen: "17,17,17",
+    rgbInflam: "68,68,68",
+    qubitState: "|+⟩",
+    diseaseProgression: "Coldness (Water)",
+    moonPhaseEnd: "First Quarter",
+    rgbColor: "102,102,102",
+    rowBg: "border-l-4 border-l-green-700 bg-green-950/30",
+  },
+  {
+    moonPhase: "4️⃣ Waxing Gibbous 🌔 — 7️⃣",
+    trigram: "☶ Gèn (Mountain) (M)",
+    direction: "7️⃣ NorthEast ← 180° Opposite Pairs → 2️⃣ SouthWest",
+    element: "Earth",
+    qiOrgan: "Täi Yīn 2️⃣+7️⃣ — Lungs ~ Spleen — 4️⃣ Greater Yin",
+    extraordinaryMeridian: "Yin Qiao Mai (Stomach — Spleen)",
+    yinYang: "Yin Yin Yang",
+    chakra: "Throat",
+    quality: "Stillness, Keeping Still, Youngest Son",
+    binary: "100",
+    brainRegion: "Left Hemisphere (Logical & Language Recovery)",
+    neurological: "Restoration of speech, logical thinking",
+    microcontroller: "Stability & Sleep Mode",
+    nadi: "Surya Nadi + Chandra Nadi + Chandra Nadi",
+    healingStrategy: "Speech therapy & cognitive rehabilitation",
+    acupuncture: "LI11 (Quchi), GV15 (Yamen)",
+    ayurveda: "Guduchi, Brahmi, Mandukparni",
+    quantumHealing: "Neurofeedback Therapy",
+    healthScale: "50 (Normal)",
+    solarSpectrum: "Narrow",
+    hexNormal: "#CCCCCC",
+    hexDegen: "#333333",
+    hexInflam: "#222222",
+    rgbNormal: "204,204,204",
+    rgbDegen: "51,51,51",
+    rgbInflam: "34,34,34",
+    qubitState: "|-⟩",
+    diseaseProgression: "Heat (Fire)",
+    moonPhaseEnd: "Waxing Gibbous",
+    rgbColor: "153,153,153",
+    rowBg: "border-l-4 border-l-yellow-600 bg-yellow-950/30",
+  },
+  {
+    moonPhase: "1️⃣ Full Moon 🌕 — 1️⃣",
+    trigram: "☰ Qián (Heaven) Sky (S)",
+    direction: "5️⃣ NorthWest ← 180° Opposite Pairs → 4️⃣ SouthEast",
+    element: "Metal",
+    qiOrgan: "Du Pure Yäng 1️⃣ — Du / Brain Governor",
+    extraordinaryMeridian: "Du Mai",
+    yinYang: "Yang Yang Yang",
+    chakra: "Crown",
+    quality: "Creative, Strong, Father",
+    binary: "111",
+    brainRegion: "Prefrontal Cortex (Decision Making & Awareness)",
+    neurological: "Higher cognitive function recovery",
+    microcontroller: "Full Power Execution",
+    nadi: "Surya Nadi + Surya Nadi + Surya Nadi",
+    healingStrategy: "Mental clarity & full consciousness restoration",
+    acupuncture: "GV24 (Shenting), Yintang (Third Eye)",
+    ayurveda: "Swarna Bhasma, Shilajit, Rasayana",
+    quantumHealing: "Gamma Wave Stimulation, Quantum Field Activation",
+    healthScale: "0-50 (Degeneration)",
+    solarSpectrum: "High Frequency",
+    hexNormal: "#CCCCCC",
+    hexDegen: "#FFFFFF",
+    hexInflam: "#999999",
+    rgbNormal: "204,204,204",
+    rgbDegen: "255,255,255",
+    rgbInflam: "153,153,153",
+    qubitState: "|i⟩",
+    diseaseProgression: "Wind (Wood)",
+    moonPhaseEnd: "Full Moon",
+    rgbColor: "192,192,192",
+    rowBg: "border-l-4 border-l-amber-400 bg-amber-950/30",
+  },
+  {
+    moonPhase: "8️⃣ Waning Gibbous 🌔 — 2️⃣",
+    trigram: "☱ Duì (Lake) (L)",
+    direction: "6️⃣ West ← 180° Opposite Pairs → 3️⃣ East",
+    element: "Metal",
+    qiOrgan: "Yäng Míng 2️⃣+7️⃣ — Large Intestine ~ Stomach — 2️⃣ Bright Yang",
+    extraordinaryMeridian: "Yin Wei Mai (Lungs — Large Intestine)",
+    yinYang: "Yin Yang Yang",
+    chakra: "Sacral",
+    quality: "Joy, Pleasure, Youngest Daughter",
+    binary: "-011++",
+    brainRegion: "Hippocampus (Memory Encoding & Retrieval)",
+    neurological: "Memory regeneration, recall improvement",
+    microcontroller: "Data Flow & Transfer",
+    nadi: "Chandra Nadi + Surya Nadi + Surya Nadi",
+    healingStrategy: "Enhancing past memory recall",
+    acupuncture: "SP6 (Sanyinjiao), UB23 (Shenshu)",
+    ayurveda: "Amalaki, Haritaki, Triphala",
+    quantumHealing: "Scalar Wave Therapy, Magnetic Resonance Stimulation",
+    healthScale: "50-100 (Inflammation)",
+    solarSpectrum: "Variable",
+    hexNormal: "#999999",
+    hexDegen: "#000000",
+    hexInflam: "#666666",
+    rgbNormal: "153,153,153",
+    rgbDegen: "0,0,0",
+    rgbInflam: "102,102,102",
+    qubitState: "|-i⟩",
+    diseaseProgression: "Dryness (Metal)",
+    moonPhaseEnd: "Waning Gibbous",
+    rgbColor: "204,204,204",
+    rowBg: "border-l-4 border-l-cyan-600 bg-cyan-950/30",
+  },
+  {
+    moonPhase: "6️⃣ Last Quarter 🌗 — 5️⃣",
+    trigram: "☴ Xùn (Wind 🍃) (W)",
+    direction: "4️⃣ SouthEast ← 180° Opposite Pairs → 5️⃣ NorthWest",
+    element: "Wood",
+    qiOrgan: "Shào Yäng 4️⃣+5️⃣ — Triple Bürnér ~ Gallbladder — 3️⃣ Lesser Yang",
+    extraordinaryMeridian: "Yang Qiao Mai (Gallbladder — Liver)",
+    yinYang: "Yang Yang Yin",
+    chakra: "Heart",
+    quality: "Gentle, Penetrating, Eldest Daughter",
+    binary: "110",
+    brainRegion: "Thalamus (Sensory Processing & Attention)",
+    neurological: "Integration of sensory perception",
+    microcontroller: "Low-Power Mode",
+    nadi: "Surya Nadi + Surya Nadi + Chandra Nadi",
+    healingStrategy: "Retraining of sensory awareness",
+    acupuncture: "ST8 (Touwei), SJ5 (Waiguan)",
+    ayurveda: "Licorice, Pippali, Vacha",
+    quantumHealing: "Light & Sound Therapy",
+    healthScale: "50-100 (Inflammation)",
+    solarSpectrum: "Broad",
+    hexNormal: "#666666",
+    hexDegen: "#666666",
+    hexInflam: "#000000",
+    rgbNormal: "102,102,102",
+    rgbDegen: "102,102,102",
+    rgbInflam: "0,0,0",
+    qubitState: "Entangled",
+    diseaseProgression: "Warmness (Air)",
+    moonPhaseEnd: "Last Quarter",
+    rgbColor: "230,230,230",
+    rowBg: "border-l-4 border-l-teal-600 bg-teal-950/30",
+  },
+  {
+    moonPhase: "7️⃣ Waning Crescent 🌖 — 3️⃣",
+    trigram: "☲ Lí (Fire 🔥) (F)",
+    direction: "8️⃣ South (Top 🔝) ← 180° Opposite Pairs → 1️⃣ North (Bottom ↘)",
+    element: "Fire",
+    qiOrgan: "Shào Yīn 3️⃣+6️⃣ — Heart ~ Kidney — 5️⃣ Lesser Yin",
+    extraordinaryMeridian: "Dai Mai (Heart — Small Intestine)",
+    yinYang: "Yin Yang Yin",
+    chakra: "Third Eye",
+    quality: "Clarity, Beauty, Middle Daughter",
+    binary: "101",
+    brainRegion: "Right Hemisphere (Creativity & Visualization)",
+    neurological: "Enhancing creativity & visual memory",
+    microcontroller: "Execution Optimization",
+    nadi: "Surya Nadi + Chandra Nadi + Surya Nadi",
+    healingStrategy: "Awakening subconscious & dream states",
+    acupuncture: "GB13 (Benshen), SI19 (Tinggong)",
+    ayurveda: "Rose Oil, Saffron, Nutmeg",
+    quantumHealing: "Dream Reprogramming, Lucid Dream Training",
+    healthScale: "0-50 (Degeneration)",
+    solarSpectrum: "Very High",
+    hexNormal: "#333333",
+    hexDegen: "#999999",
+    hexInflam: "#111111",
+    rgbNormal: "51,51,51",
+    rgbDegen: "153,153,153",
+    rgbInflam: "17,17,17",
+    qubitState: "Superposition",
+    diseaseProgression: "Humidity (Earth)",
+    moonPhaseEnd: "Waning Crescent",
+    rgbColor: "255,255,255",
+    rowBg: "border-l-4 border-l-red-700 bg-red-950/30",
+  },
+];
+
 const BR_BINARY_LOOKUP: Record<string, BrainRecoveryRow> = {};
 
 function buildBrLookup() {
@@ -624,6 +908,190 @@ function BatchPulseEntry() {
           </TableBody>
         </Table>
       </div>
+
+      {/* Static Brain Recovery Reference Table — Always Visible */}
+      <div>
+        <h3 className="text-golden font-heading font-bold text-sm mb-2 mt-6">
+          🧠 Brain Recovery Trigrams — Full Reference (All 8 Moon Phases)
+        </h3>
+        <p className="text-xs text-muted-foreground mb-3">
+          Match your entered Upper Trigram bits with the Binary column below for
+          immediate diagnosis verification
+        </p>
+        <div className="overflow-x-auto rounded-lg border border-border">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border hover:bg-transparent">
+                {[
+                  "Moon Phase / Hexagram",
+                  "Trigram (Ba Gua)",
+                  "Direction (180° Opp.)",
+                  "Element",
+                  "6/8 Stage Organ",
+                  "Extraordinary Meridian",
+                  "Yin-Yang Structure",
+                  "Vedic Chakra",
+                  "Quality",
+                  "Binary Trigram",
+                  "Brain Region Activation",
+                  "Neurological Recovery Process",
+                  "Microcontroller Function",
+                  "Nadi Activation (Ida/Pingala)",
+                  "Healing Strategy for Coma Patients",
+                  "Acupuncture & Energy Healing",
+                  "Ayurvedic & Tibetan Medicine",
+                  "Quantum Healing Methods",
+                  "Health Scale (0-100%)",
+                  "Solar Spectrum Bandwidth",
+                  "HEX (50% Normal)",
+                  "HEX (0-50% Degen)",
+                  "HEX (50-100% Inflam)",
+                  "RGB (Normal)",
+                  "RGB (Degen)",
+                  "RGB (Inflam)",
+                  "Qubit State",
+                  "Disease Progression",
+                  "Moon Phase",
+                  "RGB Color",
+                ].map((h) => (
+                  <TableHead
+                    key={h}
+                    className="text-golden font-semibold text-xs whitespace-nowrap min-w-[120px]"
+                  >
+                    {h}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {BRAIN_RECOVERY_ROWS.map((row) => (
+                <TableRow
+                  key={row.moonPhase}
+                  className={`border-border ${row.rowBg}`}
+                >
+                  <TableCell className="text-xs whitespace-nowrap font-semibold text-golden/90">
+                    {row.moonPhase}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.trigram}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.direction}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.element}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.qiOrgan}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap text-purple-300">
+                    {row.extraordinaryMeridian}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.yinYang}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.chakra}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.quality}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs whitespace-nowrap font-bold text-amber-300">
+                    {row.binary}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.brainRegion}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.neurological}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.microcontroller}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.nadi}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.healingStrategy}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap text-green-300">
+                    {row.acupuncture}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap text-amber-300">
+                    {row.ayurveda}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap text-cyan-300">
+                    {row.quantumHealing}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.healthScale}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.solarSpectrum}
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    <div className="flex items-center gap-1 whitespace-nowrap">
+                      <ColorSwatch hex={row.hexNormal} />
+                      <span className="font-mono text-muted-foreground">
+                        {row.hexNormal}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    <div className="flex items-center gap-1 whitespace-nowrap">
+                      <ColorSwatch hex={row.hexDegen} />
+                      <span className="font-mono text-muted-foreground">
+                        {row.hexDegen}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    <div className="flex items-center gap-1 whitespace-nowrap">
+                      <ColorSwatch hex={row.hexInflam} />
+                      <span className="font-mono text-muted-foreground">
+                        {row.hexInflam}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+                    {row.rgbNormal}
+                  </TableCell>
+                  <TableCell className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+                    {row.rgbDegen}
+                  </TableCell>
+                  <TableCell className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+                    {row.rgbInflam}
+                  </TableCell>
+                  <TableCell className="text-xs font-mono text-purple-300 whitespace-nowrap">
+                    {row.qubitState}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.diseaseProgression}
+                  </TableCell>
+                  <TableCell className="text-xs whitespace-nowrap">
+                    {row.moonPhaseEnd}
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    <div className="flex items-center gap-1 whitespace-nowrap">
+                      <span
+                        className="inline-block rounded border border-white/30 flex-shrink-0"
+                        style={{
+                          backgroundColor: `rgb(${row.rgbColor})`,
+                          width: 16,
+                          height: 16,
+                        }}
+                      />
+                      <span className="font-mono text-muted-foreground">
+                        {row.rgbColor}
+                      </span>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
     </div>
   );
 }
@@ -677,11 +1145,9 @@ function BioFieldScore() {
           <p className="text-sm text-muted-foreground mt-1">{healthLabel}</p>
         </div>
         <div className="w-full bg-muted rounded-full h-4 overflow-hidden">
-          <motion.div
-            className={`h-4 rounded-full ${barColor}`}
-            initial={{ width: 0 }}
-            animate={{ width: `${pct}%` }}
-            transition={{ duration: 0.8 }}
+          <div
+            style={{ width: `${pct}%` }}
+            className={`h-4 ${barColor} rounded-full transition-all`}
           />
         </div>
         <div className="grid grid-cols-4 gap-2">
@@ -865,308 +1331,6 @@ function HexQuickRef() {
     </div>
   );
 }
-
-interface BrainRecoveryRow {
-  moonPhase: string;
-  trigram: string;
-  direction: string;
-  element: string;
-  qiOrgan: string;
-  extraordinaryMeridian: string;
-  yinYang: string;
-  chakra: string;
-  quality: string;
-  binary: string;
-  brainRegion: string;
-  neurological: string;
-  microcontroller: string;
-  nadi: string;
-  healingStrategy: string;
-  acupuncture: string;
-  ayurveda: string;
-  quantumHealing: string;
-  healthScale: string;
-  solarSpectrum: string;
-  hexNormal: string;
-  hexDegen: string;
-  hexInflam: string;
-  rgbNormal: string;
-  rgbDegen: string;
-  rgbInflam: string;
-  qubitState: string;
-  diseaseProgression: string;
-  moonPhaseEnd: string;
-  rgbColor: string;
-  rowBg: string;
-}
-
-const BRAIN_RECOVERY_ROWS: BrainRecoveryRow[] = [
-  {
-    moonPhase: "5️⃣ New Moon 🌑 — 8️⃣",
-    trigram: "☷ Kūn (Earth) (E)",
-    direction: "2️⃣ SouthWest ← 180° Opposite Pairs → 5️⃣ SouthWest",
-    element: "Earth",
-    qiOrgan: "Ren Pure Yin 2️⃣ — Ren / Séx Circülätiön",
-    extraordinaryMeridian: "Ren Mai",
-    yinYang: "Yin Yin Yin",
-    chakra: "Root",
-    quality: "Receptive, Nurturing, Mother",
-    binary: "-000-",
-    brainRegion: "Brainstem (Autonomic Recovery)",
-    neurological: "Regulation of heart rate, respiration, digestion",
-    microcontroller: "System Reset",
-    nadi: "Chandra Nadi + Chandra Nadi + Chandra Nadi",
-    healingStrategy: "Stimulation of basic life functions",
-    acupuncture: "GV20 (Baihui), GV26 (Shuigou)",
-    ayurveda: "Brahmi, Ashwagandha, Tulsi",
-    quantumHealing: "Theta Wave Induction, Photonic Therapy",
-    healthScale: "50 (Normal)",
-    solarSpectrum: "Low Frequency",
-    hexNormal: "#666666",
-    hexDegen: "#CCCCCC",
-    hexInflam: "#666666",
-    rgbNormal: "102,102,102",
-    rgbDegen: "204,204,204",
-    rgbInflam: "102,102,102",
-    qubitState: "|0⟩",
-    diseaseProgression: "Darkness",
-    moonPhaseEnd: "New Moon",
-    rgbColor: "0,0,0",
-    rowBg: "border-l-4 border-l-slate-600 bg-slate-950/40",
-  },
-  {
-    moonPhase: "3️⃣ Waxing Crescent 🌒 — 6️⃣",
-    trigram: "☵ Kǎn (Water) — Abyss (A)",
-    direction: "1️⃣ North (Bottom ↘) ← 180° Opposite Pairs → 8️⃣ South (Top 🔝)",
-    element: "Water",
-    qiOrgan:
-      "Täi Yäng 3️⃣+6️⃣ — Small Intestine ~ Urinary Bladder — 1️⃣ Greater Yang",
-    extraordinaryMeridian: "Chong Mai (Urinary Bladder — Kidneys)",
-    yinYang: "Yang Yin Yang",
-    chakra: "Sacral",
-    quality: "Dangerous, Flowing, Middle Son",
-    binary: "-010-",
-    brainRegion: "Cerebellum (Motor Coordination)",
-    neurological: "Restoring balance, muscle tone, movement reflexes",
-    microcontroller: "Memory & I/O Handling",
-    nadi: "Chandra Nadi + Surya Nadi + Chandra Nadi",
-    healingStrategy: "Activation of motor response & muscle stimulation",
-    acupuncture: "ST36 (Zusanli), LI4 (Hegu)",
-    ayurveda: "Guggulu, Dashmool, Mahanarayan Oil",
-    quantumHealing: "Low-Frequency Pulsed Electromagnetic Therapy",
-    healthScale: "50-100 (Inflammation)",
-    solarSpectrum: "Medium",
-    hexNormal: "#999999",
-    hexDegen: "#C0C0C0",
-    hexInflam: "#333333",
-    rgbNormal: "153,153,153",
-    rgbDegen: "192,192,192",
-    rgbInflam: "51,51,51",
-    qubitState: "|1⟩",
-    diseaseProgression: "Brightness",
-    moonPhaseEnd: "Waxing Crescent",
-    rgbColor: "51,51,51",
-    rowBg: "border-l-4 border-l-blue-700 bg-blue-950/30",
-  },
-  {
-    moonPhase: "2️⃣ First Quarter 🌓 — 4️⃣",
-    trigram: "☳ Zhèn (Thunder) (T)",
-    direction: "3️⃣ East ← 180° Opposite Pairs → 6️⃣ West",
-    element: "Wood",
-    qiOrgan: "Jue Yin 4️⃣+5️⃣ — Pericardium ~ Liver — 6️⃣ Terminal Yin",
-    extraordinaryMeridian: "Yang Wei Mai (Pericardium — Triple Burner)",
-    yinYang: "Yang Yin Yin",
-    chakra: "Solar Plexus",
-    quality: "Arousing, Movement, Eldest Son",
-    binary: "-001+",
-    brainRegion: "Limbic System (Emotional & Memory Recovery)",
-    neurological: "Emotional reactivation, PTSD healing",
-    microcontroller: "Interrupt Processing",
-    nadi: "Chandra Nadi + Chandra Nadi + Surya Nadi",
-    healingStrategy: "Emotional stability & PTSD reduction",
-    acupuncture: "HT7 (Shenmen), PC6 (Neiguan)",
-    ayurveda: "Shankhpushpi, Jatamansi, Calamus",
-    quantumHealing: "Binaural Beats, Heart-Brain Coherence",
-    healthScale: "0-50 (Degeneration)",
-    solarSpectrum: "Wide",
-    hexNormal: "#333333",
-    hexDegen: "#111111",
-    hexInflam: "#444444",
-    rgbNormal: "51,51,51",
-    rgbDegen: "17,17,17",
-    rgbInflam: "68,68,68",
-    qubitState: "|+⟩",
-    diseaseProgression: "Coldness (Water)",
-    moonPhaseEnd: "First Quarter",
-    rgbColor: "102,102,102",
-    rowBg: "border-l-4 border-l-green-700 bg-green-950/30",
-  },
-  {
-    moonPhase: "4️⃣ Waxing Gibbous 🌔 — 7️⃣",
-    trigram: "☶ Gèn (Mountain) (M)",
-    direction: "7️⃣ NorthEast ← 180° Opposite Pairs → 2️⃣ SouthWest",
-    element: "Earth",
-    qiOrgan: "Täi Yīn 2️⃣+7️⃣ — Lungs ~ Spleen — 4️⃣ Greater Yin",
-    extraordinaryMeridian: "Yin Qiao Mai (Stomach — Spleen)",
-    yinYang: "Yin Yin Yang",
-    chakra: "Throat",
-    quality: "Stillness, Keeping Still, Youngest Son",
-    binary: "100",
-    brainRegion: "Left Hemisphere (Logical & Language Recovery)",
-    neurological: "Restoration of speech, logical thinking",
-    microcontroller: "Stability & Sleep Mode",
-    nadi: "Surya Nadi + Chandra Nadi + Chandra Nadi",
-    healingStrategy: "Speech therapy & cognitive rehabilitation",
-    acupuncture: "LI11 (Quchi), GV15 (Yamen)",
-    ayurveda: "Guduchi, Brahmi, Mandukparni",
-    quantumHealing: "Neurofeedback Therapy",
-    healthScale: "50 (Normal)",
-    solarSpectrum: "Narrow",
-    hexNormal: "#CCCCCC",
-    hexDegen: "#333333",
-    hexInflam: "#222222",
-    rgbNormal: "204,204,204",
-    rgbDegen: "51,51,51",
-    rgbInflam: "34,34,34",
-    qubitState: "|-⟩",
-    diseaseProgression: "Heat (Fire)",
-    moonPhaseEnd: "Waxing Gibbous",
-    rgbColor: "153,153,153",
-    rowBg: "border-l-4 border-l-yellow-600 bg-yellow-950/30",
-  },
-  {
-    moonPhase: "1️⃣ Full Moon 🌕 — 1️⃣",
-    trigram: "☰ Qián (Heaven) Sky (S)",
-    direction: "5️⃣ NorthWest ← 180° Opposite Pairs → 4️⃣ SouthEast",
-    element: "Metal",
-    qiOrgan: "Du Pure Yäng 1️⃣ — Du / Brain Governor",
-    extraordinaryMeridian: "Du Mai",
-    yinYang: "Yang Yang Yang",
-    chakra: "Crown",
-    quality: "Creative, Strong, Father",
-    binary: "111",
-    brainRegion: "Prefrontal Cortex (Decision Making & Awareness)",
-    neurological: "Higher cognitive function recovery",
-    microcontroller: "Full Power Execution",
-    nadi: "Surya Nadi + Surya Nadi + Surya Nadi",
-    healingStrategy: "Mental clarity & full consciousness restoration",
-    acupuncture: "GV24 (Shenting), Yintang (Third Eye)",
-    ayurveda: "Swarna Bhasma, Shilajit, Rasayana",
-    quantumHealing: "Gamma Wave Stimulation, Quantum Field Activation",
-    healthScale: "0-50 (Degeneration)",
-    solarSpectrum: "High Frequency",
-    hexNormal: "#CCCCCC",
-    hexDegen: "#FFFFFF",
-    hexInflam: "#999999",
-    rgbNormal: "204,204,204",
-    rgbDegen: "255,255,255",
-    rgbInflam: "153,153,153",
-    qubitState: "|i⟩",
-    diseaseProgression: "Wind (Wood)",
-    moonPhaseEnd: "Full Moon",
-    rgbColor: "192,192,192",
-    rowBg: "border-l-4 border-l-amber-400 bg-amber-950/30",
-  },
-  {
-    moonPhase: "8️⃣ Waning Gibbous 🌔 — 2️⃣",
-    trigram: "☱ Duì (Lake) (L)",
-    direction: "6️⃣ West ← 180° Opposite Pairs → 3️⃣ East",
-    element: "Metal",
-    qiOrgan: "Yäng Míng 2️⃣+7️⃣ — Large Intestine ~ Stomach — 2️⃣ Bright Yang",
-    extraordinaryMeridian: "Yin Wei Mai (Lungs — Large Intestine)",
-    yinYang: "Yin Yang Yang",
-    chakra: "Sacral",
-    quality: "Joy, Pleasure, Youngest Daughter",
-    binary: "-011++",
-    brainRegion: "Hippocampus (Memory Encoding & Retrieval)",
-    neurological: "Memory regeneration, recall improvement",
-    microcontroller: "Data Flow & Transfer",
-    nadi: "Chandra Nadi + Surya Nadi + Surya Nadi",
-    healingStrategy: "Enhancing past memory recall",
-    acupuncture: "SP6 (Sanyinjiao), UB23 (Shenshu)",
-    ayurveda: "Amalaki, Haritaki, Triphala",
-    quantumHealing: "Scalar Wave Therapy, Magnetic Resonance Stimulation",
-    healthScale: "50-100 (Inflammation)",
-    solarSpectrum: "Variable",
-    hexNormal: "#999999",
-    hexDegen: "#000000",
-    hexInflam: "#666666",
-    rgbNormal: "153,153,153",
-    rgbDegen: "0,0,0",
-    rgbInflam: "102,102,102",
-    qubitState: "|-i⟩",
-    diseaseProgression: "Dryness (Metal)",
-    moonPhaseEnd: "Waning Gibbous",
-    rgbColor: "204,204,204",
-    rowBg: "border-l-4 border-l-cyan-600 bg-cyan-950/30",
-  },
-  {
-    moonPhase: "6️⃣ Last Quarter 🌗 — 5️⃣",
-    trigram: "☴ Xùn (Wind 🍃) (W)",
-    direction: "4️⃣ SouthEast ← 180° Opposite Pairs → 5️⃣ NorthWest",
-    element: "Wood",
-    qiOrgan: "Shào Yäng 4️⃣+5️⃣ — Triple Bürnér ~ Gallbladder — 3️⃣ Lesser Yang",
-    extraordinaryMeridian: "Yang Qiao Mai (Gallbladder — Liver)",
-    yinYang: "Yang Yang Yin",
-    chakra: "Heart",
-    quality: "Gentle, Penetrating, Eldest Daughter",
-    binary: "110",
-    brainRegion: "Thalamus (Sensory Processing & Attention)",
-    neurological: "Integration of sensory perception",
-    microcontroller: "Low-Power Mode",
-    nadi: "Surya Nadi + Surya Nadi + Chandra Nadi",
-    healingStrategy: "Retraining of sensory awareness",
-    acupuncture: "ST8 (Touwei), SJ5 (Waiguan)",
-    ayurveda: "Licorice, Pippali, Vacha",
-    quantumHealing: "Light & Sound Therapy",
-    healthScale: "50-100 (Inflammation)",
-    solarSpectrum: "Broad",
-    hexNormal: "#666666",
-    hexDegen: "#666666",
-    hexInflam: "#000000",
-    rgbNormal: "102,102,102",
-    rgbDegen: "102,102,102",
-    rgbInflam: "0,0,0",
-    qubitState: "Entangled",
-    diseaseProgression: "Warmness (Air)",
-    moonPhaseEnd: "Last Quarter",
-    rgbColor: "230,230,230",
-    rowBg: "border-l-4 border-l-teal-600 bg-teal-950/30",
-  },
-  {
-    moonPhase: "7️⃣ Waning Crescent 🌖 — 3️⃣",
-    trigram: "☲ Lí (Fire 🔥) (F)",
-    direction: "8️⃣ South (Top 🔝) ← 180° Opposite Pairs → 1️⃣ North (Bottom ↘)",
-    element: "Fire",
-    qiOrgan: "Shào Yīn 3️⃣+6️⃣ — Heart ~ Kidney — 5️⃣ Lesser Yin",
-    extraordinaryMeridian: "Dai Mai (Heart — Small Intestine)",
-    yinYang: "Yin Yang Yin",
-    chakra: "Third Eye",
-    quality: "Clarity, Beauty, Middle Daughter",
-    binary: "101",
-    brainRegion: "Right Hemisphere (Creativity & Visualization)",
-    neurological: "Enhancing creativity & visual memory",
-    microcontroller: "Execution Optimization",
-    nadi: "Surya Nadi + Chandra Nadi + Surya Nadi",
-    healingStrategy: "Awakening subconscious & dream states",
-    acupuncture: "GB13 (Benshen), SI19 (Tinggong)",
-    ayurveda: "Rose Oil, Saffron, Nutmeg",
-    quantumHealing: "Dream Reprogramming, Lucid Dream Training",
-    healthScale: "0-50 (Degeneration)",
-    solarSpectrum: "Very High",
-    hexNormal: "#333333",
-    hexDegen: "#999999",
-    hexInflam: "#111111",
-    rgbNormal: "51,51,51",
-    rgbDegen: "153,153,153",
-    rgbInflam: "17,17,17",
-    qubitState: "Superposition",
-    diseaseProgression: "Humidity (Earth)",
-    moonPhaseEnd: "Waning Crescent",
-    rgbColor: "255,255,255",
-    rowBg: "border-l-4 border-l-red-700 bg-red-950/30",
-  },
-];
 
 function ColorSwatch({ hex }: { hex: string }) {
   return (

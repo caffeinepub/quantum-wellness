@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "@tanstack/react-router";
 import { Activity, Atom, Calendar, Plus, UserCheck, Users } from "lucide-react";
-import { motion } from "motion/react";
+
 import { useEffect, useState } from "react";
 import {
   EXTRAORDINARY_VESSELS,
@@ -85,13 +85,8 @@ export function Dashboard() {
             icon: Activity,
             color: "text-golden",
           },
-        ].map((stat, i) => (
-          <motion.div
-            key={stat.label}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.08 }}
-          >
+        ].map((stat) => (
+          <div key={stat.label}>
             <Card className="bg-card border-border">
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
@@ -109,7 +104,7 @@ export function Dashboard() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
         ))}
       </div>
 
@@ -141,11 +136,7 @@ export function Dashboard() {
       </div>
 
       {/* Quantum Singularity Active Protocol */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-      >
+      <div>
         <Card className="bg-card border-border border-golden/20">
           <CardHeader className="pb-2">
             <CardTitle className="font-heading text-base text-golden flex items-center gap-2">
@@ -227,7 +218,7 @@ export function Dashboard() {
             </div>
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
 
       {/* Recent panels */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
